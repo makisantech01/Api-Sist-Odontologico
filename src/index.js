@@ -1,18 +1,10 @@
-import express from "express";
-import db from "./models";
-import routes from "./routes/index";
-import bodyParser from "body-parser";
-import cookieParser from "cookie-parser";
-import morgan from "morgan";
+import app from "./app.js";
+import sequelize from "./config/config.cjs";
+import { config } from "dotenv";
+config();
 import cors from "cors";
 
-const app = express();
 const port = process.env.PORT || 3001;
-app.use(express.json());
-app.use(bodyParser.urlencoded({ extended: true, limit: "50mb" }));
-app.use(bodyParser.json({ limit: "50mb" }));
-app.use(cookieParser());
-app.use(morgan("dev"));
 
 //CORS CONFIG
 
@@ -23,10 +15,16 @@ app.use(morgan("dev"));
 // }
 // app.use(cors(corsOptions));
 
-app.use("/", routes);
+async function main() {
+  try {
+    await sequelize.authenticate();
+    console.log("DB Connection success!");
+    app.listen(port);
+    console.log(`Server listening on port ${port}`);
+  } catch (err) {
+    console.log(process.env.DB_NAME);
+    console.log("Unable to connect to the database", err);
+  }
+}
 
-// db.sequelize.sync({force: false}).then(() => {
-//     app.listen(port, () => {
-//         console.log(`listening on port ${port}`)
-//     })
-// })
+main();
