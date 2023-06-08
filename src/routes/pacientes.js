@@ -1,9 +1,9 @@
-const { Router } = require("express");
+import { Router } from "express";
+import catchedAsync from "../utils/catchedAsync.js";
+import { getAllPacientes } from "../controllers/paciente.js";
 
 const router = Router();
 
-router.get("/", async (req, res) => {
-  res.status(200).send("ruta prueba pacientes");
-});
+router.get("/", catchedAsync(getAllPacientes));
 
-module.exports = router;
+export default router;
