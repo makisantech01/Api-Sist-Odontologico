@@ -1,9 +1,15 @@
-import { DataTypes } from "sequelize";
+import { DataTypes, UUIDV4 } from "sequelize";
 import sequelize from "../config/config.cjs";
 
 const Consulta = sequelize.define(
   "consulta",
   {
+    id: {
+      type: DataTypes.UUID,
+      defaultValue: DataTypes.UUIDV4,
+      allowNull: false,
+      primaryKey: true,
+    },
     fecha: {
       type: DataTypes.DATE,
       allowNull: false,
