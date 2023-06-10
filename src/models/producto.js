@@ -39,6 +39,7 @@ Consulta.hasMany(Producto, {
 
 Producto.belongsToMany(Consulta, {
   foreignKey: "consultaId",
+  through: "productos_utilizados",
   targetId: "id",
 });
 
