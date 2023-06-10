@@ -1,6 +1,7 @@
 import { DataTypes } from "sequelize";
 import sequelize from "../config/config.cjs";
 import Consulta from "./consulta.js";
+import Historial from "./historial.js";
 
 const Paciente = sequelize.define(
   "paciente",
@@ -52,6 +53,16 @@ Paciente.hasMany(Consulta, {
 });
 
 Consulta.belongsTo(Paciente, {
+  foreignKey: "pacienteId",
+  targetId: "dni",
+});
+
+Paciente.hasOne(Historial, {
+  foreignKey: "pacienteId",
+  sourceKey: "dni",
+});
+
+Historial.belongsTo(Paciente, {
   foreignKey: "pacienteId",
   targetId: "dni",
 });
