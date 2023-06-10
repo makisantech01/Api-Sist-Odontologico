@@ -1,4 +1,4 @@
-import { response } from "express";
+import response from "../utils/response.js";
 import Consulta from "../models/consulta.js";
 
 export const getAllConsultas = async (req, res) => {

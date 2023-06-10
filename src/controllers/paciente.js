@@ -1,4 +1,4 @@
-import { response } from "express";
+import response from "../utils/response.js";
 import Paciente from "../models/paciente.js";
 
 export const getAllPacientes = async (req, res) => {

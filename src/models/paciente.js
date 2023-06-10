@@ -1,5 +1,6 @@
 import { DataTypes } from "sequelize";
 import sequelize from "../config/config.cjs";
+import Consulta from "./consulta.js";
 
 const Paciente = sequelize.define(
   "paciente",
@@ -44,5 +45,15 @@ const Paciente = sequelize.define(
     timestamps: false,
   }
 );
+
+Paciente.hasMany(Consulta, {
+  foreignKey: "pacienteId",
+  sourceKey: "dni",
+});
+
+Consulta.belongsTo(Paciente, {
+  foreignKey: "pacienteId",
+  targetId: "dni",
+});
 
 export default Paciente;
