@@ -28,5 +28,5 @@ export const deleteConsulta = async (req, res) => {
   const { id } = req.params;
   const consulta = await Consulta.findByPk(id);
   await consulta.destroy();
-  response(res, 200, `Paciente DNI: ${id} eliminado!`);
+  response(res, 200, `Consulta ID: ${id} eliminada!`);
 };
