@@ -22,6 +22,23 @@ const Paciente = sequelize.define(
     },
     edad: {
       type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+    fechaNacimiento: {
+      type: DataTypes.DATE,
+      allowNull: false,
+    },
+    domicilio: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    localidad: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    nroHistoriaClinica: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
     },
     email: {
       type: DataTypes.STRING,
@@ -33,7 +50,11 @@ const Paciente = sequelize.define(
         },
       },
     },
-    telefono: {
+    telefono1: {
+      type: DataTypes.BIGINT,
+      allowNull: false,
+    },
+    telefono2: {
       type: DataTypes.BIGINT,
       allowNull: false,
     },

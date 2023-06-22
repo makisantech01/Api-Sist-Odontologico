@@ -9,7 +9,9 @@ export const getAllPacientes = async (req, res) => {
 export const getPaciente = async (req, res) => {
   const { dni } = req.params;
   const paciente = await Paciente.findByPk(dni);
-  response(res, 200, paciente);
+  !paciente
+    ? response(res, 404, { message: "Paciente no encontrado!" })
+    : response(res, 200, paciente);
 };
 
 export const createPaciente = async (req, res) => {
