@@ -25,10 +25,10 @@ export const getPaciente = async (req, res) => {
 };
 
 export const createPaciente = async (req, res) => {
-  const { dni } = req.params;
-  const currentUsuario = await Usuario.findByPk(dni);
+  const { id } = req.params;
+  const currentUsuario = await Usuario.findByPk(id);
   const newPaciente = await Paciente.create(req.body);
-  await currentUsuario?.addPaciente(newPaciente);
+  await currentUsuario?.setPaciente(newPaciente);
   response(res, 200, newPaciente);
 };
 

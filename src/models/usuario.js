@@ -22,12 +22,12 @@ const Usuario = sequelize.define(
 );
 
 Usuario.hasOne(Paciente, {
-  foreignKey: "pacienteId",
+  foreignKey: "usuarioId",
   sourceKey: "dni",
 });
 
 Paciente.belongsTo(Usuario, {
-  foreignKey: "pacienteId",
+  foreignKey: "usuarioId",
   targetId: "dni",
 });
 
