@@ -4,7 +4,9 @@ import consultas from "./consultas.js";
 import turnos from "./turnos.js";
 import historiales from "./historiales.js";
 import productos from "./productos.js";
-import odontograma from "./odontograma.js";
+import odontogramas from "./odontogramas.js";
+import usuarios from "./usuarios.js";
+import login from "./login.js";
 
 const router = Router();
 
@@ -13,6 +15,8 @@ router.use("/consultas", consultas);
 router.use("/turnos", turnos);
 router.use("/historiales", historiales);
 router.use("/productos", productos);
-router.use("/odontograma", odontograma);
+router.use("/odontogramas", odontogramas);
+router.use("/usuarios", usuarios);
+router.use("/", login);
 
 export default router;

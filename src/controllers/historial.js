@@ -1,5 +1,6 @@
 import response from "../utils/response.js";
 import Historial from "../models/historial.js";
+import Paciente from "../models/paciente.js";
 
 export const getAllHistoriales = async (req, res) => {
   const historiales = await Historial.findAll();
@@ -13,7 +14,10 @@ export const getHistorial = async (req, res) => {
 };
 
 export const createHistorial = async (req, res) => {
+  const { dni } = req.params;
+  const currentPaciente = await Paciente.findByPk(dni);
   const newHistorial = await Historial.create(req.body);
+  await currentPaciente?.setHistorial(newHistorial);
   response(res, 200, newHistorial);
 };
 

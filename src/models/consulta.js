@@ -11,7 +11,7 @@ const Consulta = sequelize.define(
       primaryKey: true,
     },
     fecha: {
-      type: DataTypes.DATE,
+      type: DataTypes.DATEONLY,
       allowNull: false,
       defaultValue: DataTypes.NOW,
     },

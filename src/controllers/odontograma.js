@@ -1,5 +1,6 @@
 import response from "../utils/response.js";
-import Odontograma from "../models/paciente.js";
+import Odontograma from "../models/odontograma.js";
+import Paciente from "../models/paciente.js";
 
 export const getAllOdontogramas = async (req, res) => {
   const odontograma = await Odontograma.findAll();
@@ -15,7 +16,10 @@ export const getOdontograma = async (req, res) => {
 };
 
 export const createOdontograma = async (req, res) => {
+  const { dni } = req.params;
+  const currentPaciente = await Paciente.findByPk(dni);
   const newOdontograma = await Odontograma.create(req.body);
+  await currentPaciente?.addOdontogramas(newOdontograma);
   response(res, 200, newOdontograma);
 };
 

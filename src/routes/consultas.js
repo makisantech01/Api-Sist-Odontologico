@@ -12,7 +12,7 @@ const router = Router();
 
 router.get("/", catchedAsync(getAllConsultas));
 router.get("/:id", catchedAsync(getConsulta));
-router.post("/", catchedAsync(createConsulta));
+router.post("/:dni", catchedAsync(createConsulta));
 router.put("/:id", catchedAsync(updateConsulta));
 router.delete("/:id", catchedAsync(deleteConsulta));
 
