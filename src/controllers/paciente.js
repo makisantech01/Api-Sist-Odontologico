@@ -1,5 +1,9 @@
 import response from "../utils/response.js";
 import Paciente from "../models/paciente.js";
+import Historial from "../models/historial.js";
+import Consulta from "../models/consulta.js";
+import Odontograma from "../models/odontograma.js";
+import Usuario from "../models/usuario.js";
 
 export const getAllPacientes = async (req, res) => {
   const pacientes = await Paciente.findAll();
@@ -8,14 +12,23 @@ export const getAllPacientes = async (req, res) => {
 
 export const getPaciente = async (req, res) => {
   const { dni } = req.params;
-  const paciente = await Paciente.findByPk(dni);
+  const paciente = await Paciente.findByPk(dni, {
+    include: [
+      { model: Odontograma },
+      { model: Historial },
+      { model: Consulta },
+    ],
+  });
   !paciente
     ? response(res, 404, { message: "Paciente no encontrado!" })
     : response(res, 200, paciente);
 };
 
 export const createPaciente = async (req, res) => {
+  const { dni } = req.params;
+  const currentUsuario = await Usuario.findByPk(dni);
   const newPaciente = await Paciente.create(req.body);
+  await currentUsuario?.addPaciente(newPaciente);
   response(res, 200, newPaciente);
 };
 

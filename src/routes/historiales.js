@@ -12,7 +12,7 @@ const router = Router();
 
 router.get("/", catchedAsync(getAllHistoriales));
 router.get("/:id", catchedAsync(getHistorial));
-router.post("/", catchedAsync(createHistorial));
+router.post("/:dni", catchedAsync(createHistorial));
 router.put("/:id", catchedAsync(updateHistorial));
 router.delete("/:id", catchedAsync(deleteHistorial));
 

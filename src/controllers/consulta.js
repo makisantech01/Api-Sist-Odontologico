@@ -1,5 +1,6 @@
 import response from "../utils/response.js";
 import Consulta from "../models/consulta.js";
+import Paciente from "../models/paciente.js";
 
 export const getAllConsultas = async (req, res) => {
   const consultas = await Consulta.findAll();
@@ -13,7 +14,10 @@ export const getConsulta = async (req, res) => {
 };
 
 export const createConsulta = async (req, res) => {
+  const { dni } = req.params;
+  const currentPaciente = await Paciente.findByPk(dni);
   const newConsulta = await Consulta.create(req.body);
+  await currentPaciente?.addConsulta(newConsulta);
   response(res, 200, newConsulta);
 };
 
