@@ -13,11 +13,7 @@ export const getAllPacientes = async (req, res) => {
 export const getPaciente = async (req, res) => {
   const { dni } = req.params;
   const paciente = await Paciente.findByPk(dni, {
-    include: [
-      { model: Odontograma },
-      { model: Historial },
-      { model: Consulta },
-    ],
+    include: [{ model: Historial }, { model: Consulta }],
   });
   !paciente
     ? response(res, 404, { message: "Paciente no encontrado!" })
@@ -25,10 +21,10 @@ export const getPaciente = async (req, res) => {
 };
 
 export const createPaciente = async (req, res) => {
-  const { dni } = req.params;
-  const currentUsuario = await Usuario.findByPk(dni);
+  const { id } = req.params;
+  const currentUsuario = await Usuario.findByPk(id);
   const newPaciente = await Paciente.create(req.body);
-  await currentUsuario?.addPaciente(newPaciente);
+  await currentUsuario?.setPaciente(newPaciente);
   response(res, 200, newPaciente);
 };
 
