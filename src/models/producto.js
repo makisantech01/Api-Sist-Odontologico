@@ -24,7 +24,7 @@ const Producto = sequelize.define(
       type: DataTypes.STRING,
     },
     vencimiento: {
-      type: DataTypes.DATE,
+      type: DataTypes.DATEONLY,
     },
   },
   {

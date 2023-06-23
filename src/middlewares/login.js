@@ -1,6 +1,7 @@
 import Usuario from "../models/usuario.js";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
+import nodemailer from "nodemailer";
 
 export const login = async (req, res) => {
   const { dni, password } = req.body;
@@ -78,3 +79,78 @@ export const logout = (req, res) => {
   res.clearCookie("session");
   res.json({ success: true, message: "Cierre de sesión exitoso" });
 };
+
+// Paso 1: Generar un token de restablecimiento de contraseña
+export function generarTokenRestablecimiento(usuarioId) {
+  const token = jwt.sign({ usuarioId }, "secreto", {
+    expiresIn: "1h", // El token expirará en 1 hora
+  });
+  return token;
+}
+
+// Paso 2: Enviar un correo electrónico con el enlace de restablecimiento
+export async function enviarCorreoRestablecimiento(email, token) {
+  const transporter = nodemailer.createTransport({
+    // Configura tu transporte de correo electrónico aquí
+  });
+
+  const correo = {
+    from: "cristianmurua1995@gmail.com",
+    to: email,
+    subject: "Restablecimiento de contraseña",
+    html: `Haz clic en el siguiente enlace para restablecer tu contraseña: <a href="https://localhost:5173/restablecer-contrasena?token=${token}">Restablecer contraseña</a>`,
+  };
+
+  await transporter.sendMail(correo);
+}
+
+// Paso 3: Crear una ruta para manejar las solicitudes de restablecimiento de contraseña
+export async function restablecerContraseña(req, res) {
+  try {
+    const { token, contraseña } = req.body;
+
+    // Validar el token
+    const decoded = jwt.verify(token, "secreto");
+    const usuarioId = decoded.usuarioId;
+
+    // Actualizar la contraseña
+    const usuario = await Usuario.findByPk(usuarioId);
+    if (!usuario) {
+      return res.status(404).json({ mensaje: "Usuario no encontrado" });
+    }
+
+    const contraseñaHasheada = await bcrypt.hash(contraseña, 10);
+    usuario.contraseña = contraseñaHasheada;
+    await usuario.save();
+
+    return res
+      .status(200)
+      .json({ mensaje: "Contraseña restablecida con éxito" });
+  } catch (error) {
+    console.error("Error al restablecer la contraseña:", error);
+    return res.status(500).json({ mensaje: "Error interno del servidor" });
+  }
+}
+
+// Paso 4: Actualizar la contraseña del usuario
+export async function actualizarContraseña(req, res) {
+  try {
+    const { dni, password } = req.body;
+
+    const usuario = await Usuario.findByPk(dni);
+    if (!usuario) {
+      return res.status(404).json({ mensaje: "Usuario no encontrado" });
+    }
+
+    const contraseñaHasheada = await bcrypt.hash(password, 10);
+    usuario.password = contraseñaHasheada;
+    await usuario.save();
+
+    return res
+      .status(200)
+      .json({ mensaje: "Contraseña actualizada con éxito" });
+  } catch (error) {
+    console.error("Error al actualizar la contraseña:", error);
+    return res.status(500).json({ mensaje: "Error interno del servidor" });
+  }
+}

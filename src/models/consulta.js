@@ -1,5 +1,6 @@
 import { DataTypes, UUIDV4 } from "sequelize";
 import sequelize from "../config/config.cjs";
+import Odontograma from "./odontograma.js";
 
 const Consulta = sequelize.define(
   "consulta",
@@ -31,6 +32,16 @@ const Consulta = sequelize.define(
 
 Consulta.beforeCreate((instance, options) => {
   instance.fecha = new Date();
+});
+
+Consulta.hasOne(Odontograma, {
+  foreignKey: "consultaId",
+  sourceKey: "id",
+});
+
+Odontograma.belongsTo(Consulta, {
+  foreignKey: "consultaId",
+  targetId: "id",
 });
 
 export default Consulta;

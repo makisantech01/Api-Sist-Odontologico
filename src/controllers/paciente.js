@@ -13,11 +13,7 @@ export const getAllPacientes = async (req, res) => {
 export const getPaciente = async (req, res) => {
   const { dni } = req.params;
   const paciente = await Paciente.findByPk(dni, {
-    include: [
-      { model: Odontograma },
-      { model: Historial },
-      { model: Consulta },
-    ],
+    include: [{ model: Historial }, { model: Consulta }],
   });
   !paciente
     ? response(res, 404, { message: "Paciente no encontrado!" })

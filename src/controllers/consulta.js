@@ -1,6 +1,7 @@
 import response from "../utils/response.js";
 import Consulta from "../models/consulta.js";
 import Paciente from "../models/paciente.js";
+import Odontograma from "../models/odontograma.js";
 
 export const getAllConsultas = async (req, res) => {
   const consultas = await Consulta.findAll();
@@ -9,7 +10,9 @@ export const getAllConsultas = async (req, res) => {
 
 export const getConsulta = async (req, res) => {
   const { id } = req.params;
-  const consulta = await Consulta.findByPk(id);
+  const consulta = await Consulta.findByPk(id, {
+    include: [{ model: Odontograma }],
+  });
   response(res, 200, consulta);
 };
 
