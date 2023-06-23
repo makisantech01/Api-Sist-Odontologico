@@ -23,6 +23,20 @@ const Consulta = sequelize.define(
     zona: {
       type: DataTypes.ENUM,
       values: ["Vestibular", "Paladar", "Mencial", "Distal"],
+      allowNull: false,
+    },
+    caras: {
+      type: DataTypes.ENUM,
+      values: ["V", "M", "P", "L", "O", "I", "D", "G"],
+      allowNull: false,
+    },
+    sector: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+    observaciones: {
+      type: DataTypes.STRING,
+      allowNull: false,
     },
   },
   {
