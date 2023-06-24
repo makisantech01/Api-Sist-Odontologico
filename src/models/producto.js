@@ -15,7 +15,7 @@ const Producto = sequelize.define(
       type: DataTypes.STRING,
       allowNull: false,
     },
-    stock: {
+    cantidad: {
       type: DataTypes.INTEGER,
       allowNull: false,
       defaultValue: 0,
@@ -25,6 +25,10 @@ const Producto = sequelize.define(
     },
     vencimiento: {
       type: DataTypes.DATEONLY,
+    },
+    stockMinimo: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
     },
   },
   {
