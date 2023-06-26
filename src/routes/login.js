@@ -8,6 +8,7 @@ import {
   restablecerContraseña,
   actualizarContraseña,
 } from "../middlewares/login.js";
+import { enviarAlertaWhatsApp } from "../middlewares/whatsapp.js";
 import Usuario from "../models/usuario.js";
 import Paciente from "../models/paciente.js";
 
@@ -15,6 +16,16 @@ const router = Router();
 
 router.post("/login", catchedAsync(login));
 router.post("/logout", catchedAsync(logout));
+
+// Ruta para el envio de recordatorio por WhatsApp
+router.post("/enviar-alerta-whatsapp", (req, res) => {
+  const { telefono } = req.body; // Suponiendo que los datos se envían en el cuerpo de la petición
+
+  // Llamada a la función de envío de alerta
+  enviarAlertaWhatsApp(telefono, "Tu turno es hoy!");
+
+  res.send("Alerta de WhatsApp enviada correctamente");
+});
 
 // Ruta para solicitar el restablecimiento de contraseña
 router.post("/solicitar-restablecimiento/:dni", async (req, res) => {

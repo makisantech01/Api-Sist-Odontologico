@@ -92,6 +92,11 @@ export function generarTokenRestablecimiento(usuarioId) {
 export async function enviarCorreoRestablecimiento(email, token) {
   const transporter = nodemailer.createTransport({
     // Configura tu transporte de correo electrónico aquí
+    service: "gmail",
+    auth: {
+      user: "cristianmurua1995@gmail.com",
+      pass: "rlaksbuezbambzdl",
+    },
   });
 
   const correo = {
