@@ -36,15 +36,4 @@ const Producto = sequelize.define(
   }
 );
 
-Consulta.hasMany(Producto, {
-  foreignKey: "consultaId",
-  sourceKey: "id",
-});
-
-Producto.belongsToMany(Consulta, {
-  foreignKey: "consultaId",
-  through: "productos_utilizados",
-  targetId: "id",
-});
-
 export default Producto;
