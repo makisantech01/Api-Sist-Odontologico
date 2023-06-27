@@ -106,7 +106,7 @@ export const updateTurno = async (req, res) => {
       .status(400)
       .json({ error: "Ya existe un turno en la misma hora" });
   }
-  const updatedTurno = await turno.update({
+  const updatedTurno = await turno?.update({
     fecha: fechaISO,
     hora: horaTurno,
   });

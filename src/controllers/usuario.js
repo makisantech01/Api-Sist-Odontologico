@@ -19,10 +19,14 @@ export const getUsuario = async (req, res) => {
 };
 
 export const createUsuario = async (req, res) => {
-  const { dni, password } = req.body;
+  const { dni, password, admin } = req.body;
   // Generar un hash de la contraseña antes de almacenarla
   const hashedPassword = await bcrypt.hash(password, 10);
-  const newUsuario = await Usuario.create({ dni, password: hashedPassword });
+  const newUsuario = await Usuario.create({
+    dni,
+    password: hashedPassword,
+    admin,
+  });
   response(res, 200, newUsuario);
 };
 
@@ -31,7 +35,7 @@ export const updateUsuario = async (req, res) => {
   const { dni, password } = req.body;
   const usuario = await Usuario.findByPk(id);
   const hashedPassword = await bcrypt.hash(password, 10);
-  const updatedUsuario = await usuario.update({
+  const updatedUsuario = await usuario?.update({
     dni,
     password: hashedPassword,
   });

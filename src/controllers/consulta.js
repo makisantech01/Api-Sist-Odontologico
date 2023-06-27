@@ -43,7 +43,7 @@ export const createConsulta = async (req, res) => {
 export const updateConsulta = async (req, res) => {
   const { id } = req.params;
   const consulta = await Consulta.findByPk(id);
-  const updatedConsulta = await consulta.update(req.body);
+  const updatedConsulta = await consulta?.update(req.body);
   response(res, 201, updatedConsulta);
 };
 
