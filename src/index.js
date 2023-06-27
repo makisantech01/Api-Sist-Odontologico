@@ -9,12 +9,12 @@ const port = process.env.PORT || 3001;
 
 //CORS CONFIG
 
-const corsOptions = {
-  origin: "http://localhost:5173",
-  credentials: true, //access-control-allow-credentials:true
-  optionSuccessStatus: 200,
-};
-app.use(cors(corsOptions));
+// const corsOptions = {
+//   origin: "http://localhost:5173",
+//   credentials: true, //access-control-allow-credentials:true
+//   optionSuccessStatus: 200,
+// };
+// app.use(cors(corsOptions));
 
 async function main() {
   try {
