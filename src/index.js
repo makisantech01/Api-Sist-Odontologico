@@ -15,6 +15,7 @@ const port = process.env.PORT || 3001;
 //   optionSuccessStatus: 200,
 // };
 // app.use(cors(corsOptions));
+app.use(cors());
 
 async function main() {
   try {
