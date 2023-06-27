@@ -85,7 +85,31 @@ export const createTurno = async (req, res) => {
 export const updateTurno = async (req, res) => {
   const { id } = req.params;
   const turno = await Turno.findByPk(id);
-  const updatedTurno = await turno.update(req.body);
+
+  // Obtén el día y hora del turno que deseas crear
+  const fechaTurno = req.body.fecha;
+  const horaTurno = req.body.hora;
+  const [dia, mes, anio] = fechaTurno.split("/");
+  const fecha = new Date(anio, mes - 1, dia);
+  const fechaISO = fecha.toISOString().split("T")[0]; // Convertir la fecha a formato ISO
+
+  // Busca los turnos existentes para el mismo día y hora
+  const turnosExistente = await Turno.findOne({
+    where: {
+      fecha: fechaISO,
+      hora: horaTurno,
+    },
+  });
+
+  if (turnosExistente) {
+    return res
+      .status(400)
+      .json({ error: "Ya existe un turno en la misma hora" });
+  }
+  const updatedTurno = await turno.update({
+    fecha: fechaISO,
+    hora: horaTurno,
+  });
   response(res, 201, updatedTurno);
 };
 

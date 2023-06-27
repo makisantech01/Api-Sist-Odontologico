@@ -57,12 +57,14 @@ PUT - http://localhost:3001/consultas/:id
 DELETE - http://localhost:3001/consultas/:id
 
 Turnos:
-GET - http://localhost:3001/turnos devuelve todas las consultas registradas
+GET - http://localhost:3001/turnos devuelve todos los turnos registrados
+GET - http://localhost:3001/turnos?fecha=DD/MM/AAA devuelve todos los turnos registrados en la fecha que se pasa por query
 GET - http://localhost:3001/turnos/:id devuelve la consulta registrada con el id pasado por params
 POST - http://localhost:3001/turnos/:dni crea una consulta asociada al paciente con el dni pasado por params
 {
+    "fecha": "28/06/2023",
     "hora": "16:00",
-    "estado":true,
+    "estado": true,
 
 }
 PUT - http://localhost:3001/turnos/:id
@@ -71,7 +73,7 @@ DELETE - http://localhost:3001/turnos/:id
 Historial Medico:
 GET - http://localhost:3001/historiales
 GET - http://localhost:3001/historiales/:id
-POST - http://localhost:3001/historiales/:dni
+POST - http://localhost:3001/historiales/:dni se le pasa el dni del paciente/usuario para asociar el form
 {
     "enfermedad": false,
     "detalleEnfermedad": "detalle",
@@ -112,3 +114,33 @@ PUT - http://localhost:3001/historiales/:id
 DELETE - http://localhost:3001/historiales/:id
 
 Productos:
+GET - http://localhost:3001/productos
+GET - http://localhost:3001/productos/:id
+POST - http://localhost:3001/productos
+{
+    "nombre":"Dentifrico",
+    "cantidad": 10,
+    "lote": "K2023",
+    "vencimiento": "23/06/2028",
+    "stockMinimo": 2
+}
+PUT - http://localhost:3001/productos/:id
+DELETE - http://localhost:3001/productos/:id
+
+Odontogramas:
+GET - http://localhost:3001/odontogramas
+GET - http://localhost:3001/odontogramas/:id
+POST - http://localhost:3001/odontogramas/:id Se pasa el id por params de la consulta asociada al organigrama
+{
+    "datos": {
+        "18": { "extras": { "Cross": "red" } },
+        "26": { "left": "blue", "bottom": "blue", "center": "blue" },
+        "28": { "extras": { "Cross": "red" } },
+        "38": { "extras": { "Cross": "red" } }
+
+    },
+    "observaciones": "observaciones"
+}
+PUT - http://localhost:3001/odontogramas/:id
+DELETE - http://localhost:3001/odontogramas/:id
+
