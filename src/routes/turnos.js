@@ -12,7 +12,7 @@ const router = Router();
 
 router.get("/", catchedAsync(getAllTurnos));
 router.get("/:id", catchedAsync(getTurno));
-router.post("/", catchedAsync(createTurno));
+router.post("/:dni", catchedAsync(createTurno));
 router.put("/:id", catchedAsync(updateTurno));
 router.delete("/:id", catchedAsync(deleteTurno));
 

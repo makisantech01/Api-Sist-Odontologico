@@ -15,6 +15,9 @@ const Odontograma = sequelize.define(
       allowNull: false,
       defaultValue: {},
     },
+    observaciones: {
+      type: DataTypes.STRING,
+    },
   },
   {
     timestamps: false,
