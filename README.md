@@ -1,7 +1,7 @@
-rutas de la Api:
-
-Usuarios:
-GET - http://localhost:3001/usuarios devuelve todos los usuarios registrados
+rutas de la Api:<br>
+<br>
+Usuarios:<br>
+GET - http://localhost:3001/usuarios devuelve todos los usuarios registrados <br>
 GET - http://localhost:3001/usuarios/:dni devuelve el usuario registrado con el dni pasado por params
 POST - http://localhost:3001/usuarios crea usuario pasando la info por body
 Ej. {
