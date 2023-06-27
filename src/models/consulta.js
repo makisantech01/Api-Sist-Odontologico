@@ -1,6 +1,7 @@
 import { DataTypes, UUIDV4 } from "sequelize";
 import sequelize from "../config/config.cjs";
 import Odontograma from "./odontograma.js";
+import Producto from "./producto.js";
 
 const Consulta = sequelize.define(
   "consulta",
@@ -54,6 +55,16 @@ Consulta.hasOne(Odontograma, {
 });
 
 Odontograma.belongsTo(Consulta, {
+  foreignKey: "consultaId",
+  targetId: "id",
+});
+
+Consulta.hasMany(Producto, {
+  foreignKey: "consultaId",
+  sourceKey: "id",
+});
+
+Producto.belongsTo(Consulta, {
   foreignKey: "consultaId",
   targetId: "id",
 });

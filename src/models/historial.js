@@ -88,7 +88,7 @@ const Historial = sequelize.define(
       allowNull: false,
     },
     mesesEmbarazo: {
-      type: DataTypes.STRING,
+      type: DataTypes.INTEGER,
     },
     hipertension: {
       type: DataTypes.BOOLEAN,
@@ -163,6 +163,7 @@ const Historial = sequelize.define(
     consentimiento: {
       type: DataTypes.BOOLEAN,
       allowNull: false,
+      defaultValue: false,
     },
   },
   {

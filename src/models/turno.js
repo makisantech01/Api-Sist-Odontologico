@@ -12,9 +12,8 @@ const Turno = sequelize.define(
       primaryKey: true,
     },
     fecha: {
-      type: DataTypes.DATE,
+      type: DataTypes.DATEONLY,
       allowNull: false,
-      defaultValue: DataTypes.NOW,
     },
     hora: {
       type: DataTypes.TIME,
@@ -30,10 +29,6 @@ const Turno = sequelize.define(
     timestamps: false,
   }
 );
-
-Turno.beforeCreate((instance, options) => {
-  instance.fecha = new Date();
-});
 
 Paciente.hasMany(Turno, {
   foreignKey: "pacienteId",
