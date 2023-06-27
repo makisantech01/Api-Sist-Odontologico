@@ -36,7 +36,7 @@ export const updateProducto = async (req, res) => {
   const fecha = new Date(anio, mes - 1, dia);
   const fechaISO = fecha.toISOString().split("T")[0]; // Convertir la fecha a formato ISO
   const producto = await Producto.findByPk(id);
-  const updatedProducto = await producto.update({
+  const updatedProducto = await producto?.update({
     nombre,
     cantidad,
     lote,

@@ -24,7 +24,7 @@ export const createHistorial = async (req, res) => {
 export const updateHistorial = async (req, res) => {
   const { id } = req.params;
   const historial = await Historial.findByPk(id);
-  const updatedHistorial = await historial.update(req.body);
+  const updatedHistorial = await historial?.update(req.body);
   response(res, 201, updatedHistorial);
 };
 
