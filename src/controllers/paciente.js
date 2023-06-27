@@ -31,7 +31,7 @@ export const createPaciente = async (req, res) => {
 export const updatePaciente = async (req, res) => {
   const { dni } = req.params;
   const paciente = await Paciente.findByPk(dni);
-  const updatedPaciente = await paciente.update(req.body);
+  const updatedPaciente = await paciente?.update(req.body);
   response(res, 201, updatedPaciente);
 };
 

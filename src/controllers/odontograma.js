@@ -26,7 +26,7 @@ export const createOdontograma = async (req, res) => {
 export const updateOdontograma = async (req, res) => {
   const { id } = req.params;
   const odontograma = await Odontograma.findByPk(id);
-  const updatedOdontograma = await odontograma.update(req.body);
+  const updatedOdontograma = await odontograma?.update(req.body);
   response(res, 201, updatedOdontograma);
 };
 

@@ -35,7 +35,7 @@ export const updateUsuario = async (req, res) => {
   const { dni, password } = req.body;
   const usuario = await Usuario.findByPk(id);
   const hashedPassword = await bcrypt.hash(password, 10);
-  const updatedUsuario = await usuario.update({
+  const updatedUsuario = await usuario?.update({
     dni,
     password: hashedPassword,
   });
