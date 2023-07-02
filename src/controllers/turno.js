@@ -1,6 +1,10 @@
 import response from "../utils/response.js";
 import Turno from "../models/turno.js";
 import Paciente from "../models/paciente.js";
+import {
+  enviarCorreo,
+  agregarEventoCalendario,
+} from "../middlewares/calendar.js";
 
 export const getAllTurnos = async (req, res) => {
   const { fecha } = req.query;
@@ -24,22 +28,6 @@ export const getAllTurnos = async (req, res) => {
     response(res, 200, turno);
   }
 };
-
-// export const getTurnosbyDate = async (req, res) => {
-//   const { fecha } = req.query;
-//   console.log(fecha);
-//   const [dia, mes, anio] = fecha.split("-");
-//   const fechaBusqueda = new Date(anio, mes - 1, dia);
-//   const fechaISO = fechaBusqueda.toISOString().split("T")[0]; // Convertir la fecha a formato ISO
-//   console.log(fechaISO);
-//   const turnos = await Turno.findAll({
-//     where: {
-//       fecha: fechaISO,
-//     },
-//     include: [{ model: Paciente }],
-//   });
-//   response(res, 200, turnos);
-// };
 
 export const getTurno = async (req, res) => {
   const { id } = req.params;
@@ -79,6 +67,17 @@ export const createTurno = async (req, res) => {
     hora: horaTurno,
   });
   await currentPaciente?.addTurno(newTurno);
+
+  // Envía el correo electrónico de notificación
+  const email = currentPaciente.email;
+  const asunto = "Confirmación de turno";
+  const contenido = `Estimado/a ${currentPaciente.nombre}, esta es la confirmación de que tienes un turno programado para el día ${fechaTurno} a las ${horaTurno}.`;
+  enviarCorreo(email, asunto, contenido);
+
+  // Agrega el evento al calendario del paciente
+  const descripcion = "Turno en el centro odontológico";
+  agregarEventoCalendario(email, fechaISO, horaTurno, asunto, descripcion);
+
   response(res, 200, newTurno);
 };
 
