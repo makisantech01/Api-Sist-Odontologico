@@ -7,6 +7,7 @@ import productos from "./productos.js";
 import odontogramas from "./odontogramas.js";
 import usuarios from "./usuarios.js";
 import login from "./login.js";
+import calendar from "./calendar.js";
 
 const router = Router();
 
@@ -18,5 +19,6 @@ router.use("/productos", productos);
 router.use("/odontogramas", odontogramas);
 router.use("/usuarios", usuarios);
 router.use("/", login);
+router.use("/google", calendar);
 
 export default router;
