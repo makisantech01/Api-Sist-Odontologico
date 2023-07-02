@@ -141,4 +141,15 @@ POST - http://localhost:3001/odontogramas/:id Se pasa el id por params de la con
 }<br>
 PUT - http://localhost:3001/odontogramas/:id<br>
 DELETE - http://localhost:3001/odontogramas/:id<br>
-
+<br>
+Google Calendar:<br>
+GET - http://localhost:3001/google -> redirect a google/redirect para obtener token y permisos para acceder al Calendar del paciente<br>
+GET - http://localhost:3001/google/redirect -> se aceptan los permisos y envia por consola mensaje de exito<br>
+<br>
+POST - http://localhost:3001/turnos/:dni crea una consulta asociada al paciente con el dni pasado por params, envia confirmacion de turno via mail y luego de los pasos anteriores con el seteo de las credenciales agendara evento en el Google Calendar del paciente<br>
+<br>
+{<br>
+    "fecha": "28/06/2023",<br>
+    "hora": "16:00",<br>
+    "estado": true,<br>
+}<br>
