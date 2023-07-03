@@ -15,9 +15,13 @@ export const login = async (req, res) => {
 
       if (contraseñaValida) {
         // Generar un token de sesión
-        const token = jwt.sign({ id: usuario.dni }, "secreto", {
-          expiresIn: "1h",
-        });
+        const token = jwt.sign(
+          { id: usuario.dni, admin: usuario.admin },
+          "secreto",
+          {
+            expiresIn: "1h",
+          }
+        );
 
         // Establecer la cookie de sesión
         res.cookie("session", token, { httpOnly: true });
