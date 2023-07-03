@@ -5,8 +5,8 @@ import Paciente from "../../models/paciente.js";
 
 describe("Paciente Routes", () => {
   let paciente;
-  beforeEach(async () => {
-    await main();
+  main();
+  beforeEach(() => {
     // paciente = Paciente.create({
     //   dni: "123456789",
     //   nombre: "Cristian",
@@ -23,7 +23,7 @@ describe("Paciente Routes", () => {
     // });
   });
 
-  test("debería obtener un paciente por su DNI", async () => {
+  test("debería obtener el listado de pacientes y responder con status 200", async () => {
     const response = await request(app).get(`/pacientes`);
     expect(response.status).toBe(200);
     // Agrega más expectativas para verificar la respuesta
