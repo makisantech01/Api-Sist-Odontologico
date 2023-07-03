@@ -3,6 +3,7 @@ import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
 import morgan from "morgan";
 import router from "./routes/index.js";
+import cors from "cors";
 const app = express();
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true, limit: "50mb" }));
@@ -11,6 +12,16 @@ app.use(cookieParser());
 app.use(morgan("dev"));
 
 app.use(router);
+
+//CORS CONFIG
+
+const corsOptions = {
+  origin: "http://localhost:5173",
+  credentials: true, //access-control-allow-credentials:true
+  allowedHeaders: ["Content-Type", "Authorization"],
+};
+app.use(cors(corsOptions));
+// app.use(cors());
 
 // 404 handler
 
