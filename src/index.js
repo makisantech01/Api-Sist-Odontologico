@@ -2,20 +2,10 @@ import app from "./app.js";
 import sequelize from "./config/config.cjs";
 import { config } from "dotenv";
 config();
-import cors from "cors";
+
 import "./models/index.js";
 
 const port = process.env.PORT || 3001;
-
-//CORS CONFIG
-
-const corsOptions = {
-  origin: "http://localhost:5173",
-  credentials: true, //access-control-allow-credentials:true
-  allowedHeaders: ["Content-Type", "Authorization"],
-};
-app.use(cors(corsOptions));
-// app.use(cors());
 
 export async function main() {
   try {
