@@ -15,6 +15,7 @@ app.use(router);
 
 //CORS CONFIG
 
+
 app.use(function (req, res, next) {
   res.header("Access-Control-Allow-Origin", "http://localhost:5173");
   res.header(
@@ -32,6 +33,7 @@ app.use(function (req, res, next) {
 //   allowedHeaders: ["Content-Type", "Authorization"],
 // };
 // app.use(cors(corsOptions));
+
 // app.use(cors());
 
 // 404 handler
