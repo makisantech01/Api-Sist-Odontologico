@@ -2,7 +2,6 @@ import response from "../utils/response.js";
 import Paciente from "../models/paciente.js";
 import Historial from "../models/historial.js";
 import Consulta from "../models/consulta.js";
-import Odontograma from "../models/odontograma.js";
 import Usuario from "../models/usuario.js";
 
 export const getAllPacientes = async (req, res) => {
