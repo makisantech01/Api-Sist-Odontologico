@@ -9,15 +9,15 @@ const port = process.env.PORT || 3001;
 
 //CORS CONFIG
 
-// const corsOptions = {
-//   origin: "http://localhost:5173",
-//   credentials: true, //access-control-allow-credentials:true
-//   optionSuccessStatus: 200,
-// };
-// app.use(cors(corsOptions));
-app.use(cors());
+const corsOptions = {
+  origin: "http://localhost:5173",
+  credentials: true, //access-control-allow-credentials:true
+  optionSuccessStatus: 200,
+};
+app.use(cors(corsOptions));
+// app.use(cors());
 
-async function main() {
+export async function main() {
   try {
     await sequelize.sync({ force: false });
     console.log("DB Connection success!");
