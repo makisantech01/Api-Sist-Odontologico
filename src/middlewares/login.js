@@ -26,6 +26,7 @@ export const login = async (req, res) => {
           success: true,
           message: "Inicio de sesión exitoso",
           dniCorrecto: true,
+          token,
         });
       } else {
         res.status(401).json({
