@@ -11,28 +11,17 @@ app.use(bodyParser.json({ limit: "50mb" }));
 app.use(cookieParser());
 app.use(morgan("dev"));
 
-app.use(router);
-
 //CORS CONFIG
 
-app.use(function (req, res, next) {
-  res.header("Access-Control-Allow-Origin", "http://localhost:5173");
-  res.header(
-    "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content-Type, Accept"
-  );
-  res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
-  res.header("Access-Control-Allow-Credentials", "true");
-  next();
-});
+const corsOptions = {
+  origin: "http://localhost:5173",
+  credentials: true, //access-control-allow-credentials:true
+  allowedHeaders: ["Content-Type", "Authorization"],
+};
+app.use(cors(corsOptions));
+app.use(cors());
 
-// const corsOptions = {
-//   origin: "http://localhost:5173",
-//   credentials: true, //access-control-allow-credentials:true
-//   allowedHeaders: ["Content-Type", "Authorization"],
-// };
-// app.use(cors(corsOptions));
-// app.use(cors());
+app.use(router);
 
 // 404 handler
 
