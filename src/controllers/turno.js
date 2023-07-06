@@ -6,6 +6,8 @@ import {
   agregarEventoCalendario,
 } from "../middlewares/calendar.js";
 
+import { generarDiasConHorasDisponibles } from "../middlewares/diasHoras.js";
+
 export const getAllTurnos = async (req, res) => {
   const { fecha } = req.query;
   if (fecha) {
@@ -62,11 +64,26 @@ export const createTurno = async (req, res) => {
       .json({ error: "Ya existe un turno en la misma hora" });
   }
 
-  const newTurno = await Turno.create({
-    fecha: fechaISO,
-    hora: horaTurno,
-  });
-  await currentPaciente?.addTurno(newTurno);
+  if (
+    horaTurno !== "16:00" ||
+    horaTurno !== "16:30" ||
+    horaTurno !== "17:00" ||
+    horaTurno !== "17:30" ||
+    horaTurno !== "18:00" ||
+    horaTurno !== "18:30" ||
+    horaTurno !== "19:00" ||
+    horaTurno !== "19:30"
+  ) {
+    const newTurno = await Turno.create({
+      fecha: fechaISO,
+      hora: horaTurno,
+    });
+    await currentPaciente?.addTurno(newTurno);
+  } else {
+    return res.status(400).json({
+      error: "No se admiten turnos fuera del rango horario de 16 a 20 hs",
+    });
+  }
 
   // Envía el correo electrónico de notificación
   const email = currentPaciente.email;
@@ -117,4 +134,9 @@ export const deleteTurno = async (req, res) => {
   const turno = await Turno.findByPk(id);
   await turno.destroy();
   response(res, 200, `Turno Id: ${id} eliminado!`);
+};
+
+export const disponibilidad = async (req, res) => {
+  const diasConHorasDisponibles = await generarDiasConHorasDisponibles();
+  response(res, 200, diasConHorasDisponibles);
 };
