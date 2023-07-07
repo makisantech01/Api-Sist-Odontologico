@@ -1,7 +1,9 @@
 import moment from "moment";
-
+import "moment/locale/es.js";
 const rangoHoras = { inicio: 16, fin: 20 };
 const intervaloMinutos = 30;
+
+moment.locale("es");
 
 const generarHorasDisponibles = () => {
   const horasDisponibles = [];
@@ -25,9 +27,12 @@ export const generarDiasConHorasDisponibles = () => {
 
   for (let i = 0; i < 30; i++) {
     const fecha = fechaInicio.clone().add(i, "days");
+    const dia = fecha.format("dddd");
     const fechaISO = fecha.format("DD/MM/YYYY");
     const horasDisponibles = generarHorasDisponibles();
-    dias.push({ fecha: fechaISO, horasDisponibles });
+    if (dia !== "sábado" && dia !== "domingo") {
+      dias.push({ dia, fecha: fechaISO, horasDisponibles });
+    }
   }
 
   return dias;
