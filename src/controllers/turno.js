@@ -11,11 +11,10 @@ import { generarDiasConHorasDisponibles } from "../middlewares/diasHoras.js";
 export const getAllTurnos = async (req, res) => {
   const { fecha } = req.query;
   if (fecha) {
-    console.log(fecha);
     const [dia, mes, anio] = fecha.split("-");
     const fechaBusqueda = new Date(anio, mes - 1, dia);
     const fechaISO = fechaBusqueda.toISOString().split("T")[0]; // Convertir la fecha a formato ISO
-    console.log(fechaISO);
+
     const turnos = await Turno.findAll({
       where: {
         fecha: fechaISO,
@@ -60,30 +59,15 @@ export const createTurno = async (req, res) => {
 
   if (turnosExistente) {
     return res
-      .status(400)
+      .status(409)
       .json({ error: "Ya existe un turno en la misma hora" });
   }
 
-  if (
-    horaTurno !== "16:00" ||
-    horaTurno !== "16:30" ||
-    horaTurno !== "17:00" ||
-    horaTurno !== "17:30" ||
-    horaTurno !== "18:00" ||
-    horaTurno !== "18:30" ||
-    horaTurno !== "19:00" ||
-    horaTurno !== "19:30"
-  ) {
-    const newTurno = await Turno.create({
-      fecha: fechaISO,
-      hora: horaTurno,
-    });
-    await currentPaciente?.addTurno(newTurno);
-  } else {
-    return res.status(400).json({
-      error: "No se admiten turnos fuera del rango horario de 16 a 20 hs",
-    });
-  }
+  const newTurno = await Turno.create({
+    fecha: fechaISO,
+    hora: horaTurno,
+  });
+  await currentPaciente?.addTurno(newTurno);
 
   // Envía el correo electrónico de notificación
   const email = currentPaciente.email;
