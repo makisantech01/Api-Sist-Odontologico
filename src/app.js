@@ -8,12 +8,11 @@ const app = express();
 //CORS CONFIG
 
 const corsOptions = {
-  origin: ["http://localhost:5173", "https://deploy-odontologia.vercel.app"],
+  origin: ["http://localhost:5173", "https://odontologia-front.vercel.app"],
   credentials: true, //access-control-allow-credentials:true
   allowedHeaders: ["Content-Type", "Authorization"],
 };
 app.use(cors(corsOptions));
-app.options("*", cors(corsOptions));
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true, limit: "50mb" }));
 app.use(bodyParser.json({ limit: "50mb" }));
