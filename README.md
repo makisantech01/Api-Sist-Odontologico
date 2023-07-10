@@ -59,6 +59,46 @@ DELETE - http://localhost:3001/consultas/:id<br>
 Turnos:<br>
 GET - http://localhost:3001/turnos devuelve todos los turnos registrados<br>
 GET - http://localhost:3001/turnos?fecha=DD/MM/AAA devuelve todos los turnos registrados en la fecha que se pasa por query<br>
+GET - http://localhost:3001/turnos/disponibilidad devuelve un array con los 30 dias proxios desde la fecha en que se hace la peticion con sus respectivos horarios y sin los sabados y domingos. Tambien posee cada horario una propiedad disponible en true o false, dependiendo de si ya existe un turno en esa fecha y hora en concreto <br>
+Ej. <br>
+{<br>
+            "dia": "lunes",<br>
+            "fecha": "10/07/2023",<br>
+            "horasDisponibles": [<br>
+                {<br>
+                    "hora": "16:00",<br>
+                    "disponible": true<br>
+                },<br>
+                {<br>
+                    "hora": "16:30",<br>
+                    "disponible": true<br>
+                },<br>
+                {<br>
+                    "hora": "17:00",<br>
+                    "disponible": true<br>
+                },<br>
+                {<br>
+                    "hora": "17:30",<br>
+                    "disponible": false<br>
+                },<br>
+                {<br>
+                    "hora": "18:00",<br>
+                    "disponible": true<br>
+                },<br>
+                {<br>
+                    "hora": "18:30",<br>
+                    "disponible": false<br>
+                },<br>
+                {<br>
+                    "hora": "19:00",<br>
+                    "disponible": true<br>
+                },<br>
+                {<br>
+                    "hora": "19:30",<br>
+                    "disponible": false<br>
+                }<br>
+            ]<br>
+        }, <br>  
 GET - http://localhost:3001/turnos/:id devuelve la consulta registrada con el id pasado por params<br>
 POST - http://localhost:3001/turnos/:dni crea una consulta asociada al paciente con el dni pasado por params<br>
 {<br>
