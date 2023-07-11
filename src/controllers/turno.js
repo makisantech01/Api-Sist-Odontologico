@@ -11,7 +11,7 @@ import { generarDiasConHorasDisponibles } from "../middlewares/diasHoras.js";
 export const getAllTurnos = async (req, res) => {
   const { fecha } = req.query;
   if (fecha) {
-    const [dia, mes, anio] = fecha.split("-");
+    const [dia, mes, anio] = fecha.split("/");
     const fechaBusqueda = new Date(anio, mes - 1, dia);
     const fechaISO = fechaBusqueda.toISOString().split("T")[0]; // Convertir la fecha a formato ISO
 
