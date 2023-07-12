@@ -25,8 +25,25 @@ const Paciente = sequelize.define(
       allowNull: false,
     },
     fechaNacimiento: {
-      type: DataTypes.DATE,
+      type: DataTypes.DATEONLY,
       allowNull: false,
+      get() {
+        const fecha = this.getDataValue("fechaNacimiento");
+        if (fecha) {
+          const [anio, mes, dia] = fecha.toISOString().split("T")[0].split("-");
+          return `${dia}/${mes}/${anio}`;
+        }
+        return null;
+      },
+      set(value) {
+        if (value) {
+          const [dia, mes, anio] = value.split("/");
+          this.setDataValue(
+            "fechaNacimiento",
+            new Date(`${anio}-${mes}-${dia}`)
+          );
+        }
+      },
     },
     domicilio: {
       type: DataTypes.STRING,
