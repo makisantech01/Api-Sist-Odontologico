@@ -26,16 +26,18 @@ const Producto = sequelize.define(
     vencimiento: {
       type: DataTypes.DATEONLY,
       get() {
-        const rawValue = this.getDataValue("vencimiento");
-        if (rawValue) {
-          const formattedDate = rawValue.toLocaleDateString("es-ES", {
-            day: "2-digit",
-            month: "2-digit",
-            year: "numeric",
-          });
-          return formattedDate;
+        const fecha = new Date(this.getDataValue("vencimiento"));
+        if (fecha instanceof Date && !isNaN(fecha)) {
+          const [anio, mes, dia] = fecha.toISOString().split("T")[0].split("-");
+          return `${dia}/${mes}/${anio}`;
         }
         return null;
+      },
+      set(value) {
+        if (value) {
+          const [dia, mes, anio] = value.split("/");
+          this.setDataValue("vencimiento", new Date(`${anio}-${mes}-${dia}`));
+        }
       },
     },
     stockMinimo: {
