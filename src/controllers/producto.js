@@ -13,36 +13,15 @@ export const getProducto = async (req, res) => {
 };
 
 export const createProducto = async (req, res) => {
-  const { nombre, cantidad, lote, vencimiento, stockMinimo } = req.body;
-  //formateo de fecha
-  const [dia, mes, anio] = vencimiento.split("/");
-  const fecha = new Date(anio, mes - 1, dia);
-  const fechaISO = fecha.toISOString().split("T")[0]; // Convertir la fecha a formato ISO
-  const newProducto = await Producto.create({
-    nombre,
-    cantidad,
-    lote,
-    vencimiento: fechaISO,
-    stockMinimo,
-  });
+  const newProducto = await Producto.create(req.body);
   response(res, 200, newProducto);
 };
 
 export const updateProducto = async (req, res) => {
   const { id } = req.params;
-  const { nombre, cantidad, lote, vencimiento, stockMinimo } = req.body;
-  //formateo de fecha
-  const [dia, mes, anio] = vencimiento.split("/");
-  const fecha = new Date(anio, mes - 1, dia);
-  const fechaISO = fecha.toISOString().split("T")[0]; // Convertir la fecha a formato ISO
+
   const producto = await Producto.findByPk(id);
-  const updatedProducto = await producto?.update({
-    nombre,
-    cantidad,
-    lote,
-    vencimiento: fechaISO,
-    stockMinimo,
-  });
+  const updatedProducto = await producto?.update(req.body);
   response(res, 201, updatedProducto);
 };
 
