@@ -27,9 +27,18 @@ export const getPaciente = async (req, res) => {
     include: [{ model: Historial }, { model: Consulta }],
   });
 
-  !paciente
-    ? response(res, 404, { message: "Paciente no encontrado!" })
-    : response(res, 200, paciente);
+  if (!paciente) {
+    response(res, 404, { message: "Paciente no encontrado!" });
+  } else {
+    const fechaOriginal = new Date(paciente.fechaNacimiento);
+    const fechaFormateada = `${fechaOriginal
+      .getUTCDate()
+      .toString()
+      .padStart(2, "0")}/${(fechaOriginal.getUTCMonth() + 1)
+      .toString()
+      .padStart(2, "0")}/${fechaOriginal.getUTCFullYear()}`;
+    response(res, 200, { ...paciente, fechaNacimiento: fechaFormateada });
+  }
 };
 
 export const createPaciente = async (req, res) => {
