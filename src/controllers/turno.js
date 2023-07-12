@@ -11,17 +11,26 @@ import { generarDiasConHorasDisponibles } from "../middlewares/diasHoras.js";
 export const getAllTurnos = async (req, res) => {
   const { fecha } = req.query;
   if (fecha) {
-    const [dia, mes, anio] = fecha.split("/");
-    const fechaBusqueda = new Date(anio, mes - 1, dia);
+    const [dia, mes, año] = fecha.split("/");
+    const fechaBusqueda = new Date(año, mes - 1, dia);
     const fechaISO = fechaBusqueda.toISOString().split("T")[0]; // Convertir la fecha a formato ISO
 
     const turnos = await Turno.findAll({
-      where: {
-        fecha: fechaISO,
-      },
+      where: { fecha: fechaISO },
       include: [{ model: Paciente }],
     });
-    response(res, 200, turnos);
+    const turnosFormateados = turnos.map((turno) => {
+      const fechaOriginal = new Date(turno.fecha);
+      const fechaFormateada = `${fechaOriginal
+        .getUTCDate()
+        .toString()
+        .padStart(2, "0")}/${(fechaOriginal.getUTCMonth() + 1)
+        .toString()
+        .padStart(2, "0")}/${fechaOriginal.getUTCFullYear()}`;
+      return { ...turno.toJSON(), fecha: fechaFormateada };
+    });
+
+    response(res, 200, turnosFormateados);
   } else {
     const turno = await Turno.findAll({
       include: [{ model: Paciente }],

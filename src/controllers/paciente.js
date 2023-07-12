@@ -3,10 +3,22 @@ import Paciente from "../models/paciente.js";
 import Historial from "../models/historial.js";
 import Consulta from "../models/consulta.js";
 import Usuario from "../models/usuario.js";
+import moment from "moment";
 
 export const getAllPacientes = async (req, res) => {
   const pacientes = await Paciente.findAll();
-  response(res, 200, pacientes);
+
+  const pacientesFormateados = pacientes.map((paciente) => {
+    const fechaOriginal = new Date(paciente.fechaNacimiento);
+    const fechaFormateada = `${fechaOriginal
+      .getUTCDate()
+      .toString()
+      .padStart(2, "0")}/${(fechaOriginal.getUTCMonth() + 1)
+      .toString()
+      .padStart(2, "0")}/${fechaOriginal.getUTCFullYear()}`;
+    return { ...paciente.toJSON(), fechaNacimiento: fechaFormateada };
+  });
+  response(res, 200, pacientesFormateados);
 };
 
 export const getPaciente = async (req, res) => {
@@ -14,6 +26,7 @@ export const getPaciente = async (req, res) => {
   const paciente = await Paciente.findByPk(dni, {
     include: [{ model: Historial }, { model: Consulta }],
   });
+
   !paciente
     ? response(res, 404, { message: "Paciente no encontrado!" })
     : response(res, 200, paciente);
