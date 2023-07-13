@@ -50,7 +50,12 @@ export const getTurno = async (req, res) => {
 export const createTurno = async (req, res) => {
   const { dni } = req.params;
   const currentPaciente = await Paciente.findByPk(dni);
-
+  if (!dni) {
+    response(res, 400, { message: "Falta DNI asociado al turno" });
+  }
+  if (!currentPaciente) {
+    response(res, 404, { message: "No se encontro un paciente con ese DNI" });
+  }
   // Obtén el día y hora del turno que deseas crear
   const fechaTurno = req.body.fecha;
   const horaTurno = req.body.hora;

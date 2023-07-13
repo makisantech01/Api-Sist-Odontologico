@@ -27,21 +27,11 @@ const Paciente = sequelize.define(
     fechaNacimiento: {
       type: DataTypes.DATEONLY,
       allowNull: false,
-      get() {
-        const fecha = this.getDataValue("fechaNacimiento");
-        if (fecha) {
-          const [anio, mes, dia] = fecha.toISOString().split("T")[0].split("-");
-          return `${dia}/${mes}/${anio}`;
-        }
-        return null;
-      },
       set(value) {
         if (value) {
           const [dia, mes, anio] = value.split("/");
-          this.setDataValue(
-            "fechaNacimiento",
-            new Date(`${anio}-${mes}-${dia}`)
-          );
+          const fechaSinConversion = new Date(anio, mes - 1, dia); // Restamos 1 al mes ya que los meses en JavaScript son base 0
+          this.setDataValue("fechaNacimiento", fechaSinConversion);
         }
       },
     },
