@@ -1,15 +1,35 @@
 import response from "../utils/response.js";
 import Producto from "../models/producto.js";
+import moment from "moment";
 
 export const getAllProductos = async (req, res) => {
   const productos = await Producto.findAll();
-  response(res, 200, productos);
+  const productosFormateados = productos.map((producto) => {
+    const fechaOriginal = moment(producto.vencimiento);
+    const fechaFormateada = fechaOriginal.format("DD/MM/YYYY");
+    return { ...producto.toJSON(), vencimiento: fechaFormateada };
+  });
+  response(res, 200, productosFormateados);
 };
 
 export const getProducto = async (req, res) => {
   const { id } = req.params;
   const producto = await Producto.findByPk(id);
-  response(res, 200, producto);
+  if (!producto) {
+    response(res, 404, { message: "Producto no encontrado!" });
+  } else {
+    const fechaOriginal = new Date(producto.vencimiento);
+    const fechaFormateada = `${fechaOriginal
+      .getUTCDate()
+      .toString()
+      .padStart(2, "0")}/${(fechaOriginal.getUTCMonth() + 1)
+      .toString()
+      .padStart(2, "0")}/${fechaOriginal.getUTCFullYear()}`;
+    response(res, 200, {
+      ...producto.toJSON(),
+      vencimiento: fechaFormateada,
+    });
+  }
 };
 
 export const createProducto = async (req, res) => {
