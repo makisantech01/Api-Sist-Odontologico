@@ -8,6 +8,8 @@ import {
 
 import { generarDiasConHorasDisponibles } from "../middlewares/diasHoras.js";
 
+import moment from "moment";
+
 export const getAllTurnos = async (req, res) => {
   const { fecha } = req.query;
   if (fecha) {
@@ -35,7 +37,12 @@ export const getAllTurnos = async (req, res) => {
     const turno = await Turno.findAll({
       include: [{ model: Paciente }],
     });
-    response(res, 200, turno);
+    const turnoFormateados = turno.map((t) => {
+      const fechaOriginal = moment(t.fecha);
+      const fechaFormateada = fechaOriginal.format("DD/MM/YYYY");
+      return { ...t.toJSON(), fecha: fechaFormateada };
+    });
+    response(res, 200, turnoFormateados);
   }
 };
 
