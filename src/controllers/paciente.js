@@ -9,13 +9,8 @@ export const getAllPacientes = async (req, res) => {
   const pacientes = await Paciente.findAll();
 
   const pacientesFormateados = pacientes.map((paciente) => {
-    const fechaOriginal = new Date(paciente.fechaNacimiento);
-    const fechaFormateada = `${fechaOriginal
-      .getUTCDate()
-      .toString()
-      .padStart(2, "0")}/${(fechaOriginal.getUTCMonth() + 1)
-      .toString()
-      .padStart(2, "0")}/${fechaOriginal.getUTCFullYear()}`;
+    const fechaOriginal = moment(paciente.fechaNacimiento);
+    const fechaFormateada = fechaOriginal.format("DD/MM/YYYY");
     return { ...paciente.toJSON(), fechaNacimiento: fechaFormateada };
   });
   response(res, 200, pacientesFormateados);
@@ -37,7 +32,10 @@ export const getPaciente = async (req, res) => {
       .padStart(2, "0")}/${(fechaOriginal.getUTCMonth() + 1)
       .toString()
       .padStart(2, "0")}/${fechaOriginal.getUTCFullYear()}`;
-    response(res, 200, { ...paciente, fechaNacimiento: fechaFormateada });
+    response(res, 200, {
+      ...paciente.toJSON(),
+      fechaNacimiento: fechaFormateada,
+    });
   }
 };
 
