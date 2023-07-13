@@ -25,18 +25,12 @@ const Producto = sequelize.define(
     },
     vencimiento: {
       type: DataTypes.DATEONLY,
-      get() {
-        const fecha = new Date(this.getDataValue("vencimiento"));
-        if (fecha instanceof Date && !isNaN(fecha)) {
-          const [anio, mes, dia] = fecha.toISOString().split("T")[0].split("-");
-          return `${dia}/${mes}/${anio}`;
-        }
-        return null;
-      },
+
       set(value) {
         if (value) {
           const [dia, mes, anio] = value.split("/");
-          this.setDataValue("vencimiento", new Date(`${anio}-${mes}-${dia}`));
+          const fechaSinConversion = new Date(anio, mes - 1, dia); // Restamos 1 al mes ya que los meses en JavaScript son base 0
+          this.setDataValue("vencimiento", fechaSinConversion);
         }
       },
     },
