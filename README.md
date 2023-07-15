@@ -17,7 +17,7 @@ POST - http://localhost:3001/login<br>
 POST - http://localhost:3001/logout<br>
 POST - http://localhost:3001/enviar-alerta-whatsapp (pendiente de consultas por costos)<br>
 POST - http://localhost:3001/solicitar-restablecimiento/:dni (dni del paciente por params y email por body)<br>
-POST - http://localhost:3001/restablecer-contraseña (token y password por body)<br>
+POST - http://localhost:3001/restablecer-contrasena (token y password por body)<br>
 PUT - http://localhost:3001/actualizar-contraseña (dni y password por body)<br>
 <br>
 Pacientes:<br>
