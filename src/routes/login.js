@@ -56,7 +56,7 @@ router.post("/solicitar-restablecimiento/:dni", async (req, res) => {
 });
 
 // Ruta para restablecer la contraseña
-router.post("/restablecer-contraseña", async (req, res) => {
+router.post("/restablecer-contrasena", async (req, res) => {
   try {
     const { token, password } = req.body;
 
