@@ -61,7 +61,7 @@ router.post("/restablecer-contrasena", async (req, res) => {
     const { token, password } = req.body;
 
     // Verificar y actualizar la contraseña utilizando el token
-    await restablecerContraseña(token, password);
+    await restablecerContraseña(token, password, res);
 
     return res
       .status(200)
