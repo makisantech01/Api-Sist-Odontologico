@@ -45,7 +45,8 @@ const Paciente = sequelize.define(
     },
     nroHistoriaClinica: {
       type: DataTypes.INTEGER,
-      allowNull: false,
+      defaultValue: null,
+      unique: true,
     },
     email: {
       type: DataTypes.STRING,
