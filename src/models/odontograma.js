@@ -1,27 +1,26 @@
 import { DataTypes } from "sequelize";
 import sequelize from "../config/config.cjs";
+import Diente from "./diente.js";
 
-const Odontograma = sequelize.define(
-  "odontograma",
-  {
-    id: {
-      type: DataTypes.UUID,
-      defaultValue: DataTypes.UUIDV4,
-      allowNull: false,
-      primaryKey: true,
-    },
-    datos: {
-      type: DataTypes.JSONB,
-      allowNull: false,
-      defaultValue: {},
-    },
-    observaciones: {
-      type: DataTypes.STRING,
-    },
+const Odontograma = sequelize.define("Odontograma", {
+  paciente: {
+    type: DataTypes.STRING,
+    allowNull: false,
   },
-  {
-    timestamps: false,
-  }
-);
+  fecha: {
+    type: DataTypes.DATE,
+    allowNull: false,
+  },
+  observaciones: {
+    type: DataTypes.TEXT,
+    allowNull: true,
+  },
+  // materialesUsados: {
+  //   type: DataTypes.STRING,
+  //   allowNull: true
+  // }
+});
+
+Odontograma.hasMany(Diente, { as: "dientes" });
 
 export default Odontograma;
