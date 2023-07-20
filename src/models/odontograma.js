@@ -1,6 +1,6 @@
 import { DataTypes } from "sequelize";
 import sequelize from "../config/config.cjs";
-import Diente from "./diente.js";
+// import Diente from "./diente.js";
 
 const Odontograma = sequelize.define("Odontograma", {
   paciente: {
@@ -21,6 +21,6 @@ const Odontograma = sequelize.define("Odontograma", {
   // }
 });
 
-Odontograma.hasMany(Diente, { as: "dientes" });
+// Odontograma.hasMany(Diente, { as: "dientes" });
 
 export default Odontograma;
