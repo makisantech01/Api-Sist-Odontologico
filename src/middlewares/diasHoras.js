@@ -1,7 +1,7 @@
 import moment from "moment";
 import "moment/locale/es.js";
 import Turno from "../models/turno.js";
-const rangoHoras = { inicio: 16, fin: 20 };
+const rangoHoras = { inicio: 15, fin: 20 };
 const intervaloMinutos = 30;
 
 moment.locale("es");

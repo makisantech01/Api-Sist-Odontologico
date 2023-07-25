@@ -34,9 +34,13 @@ Ej. {<br>
     "localidad": "Quilmes",<br>
     "nroHistoriaClinica": 123456,<br>
     "email": "cristianmurua1995@gmail.com",<br>
+    "ocupacion": "Programador",<br>
     "telefono1": 1173627751,<br>
     "telefono2": 1132805541,<br>
     "obraSocial": "OSDE"<br>
+    "plan": "ORO"<br>
+    "titular": "CRISTIAN N MURUA"<br>
+    "afiliado": 123456<br>
 }<br>
 <br>
 PUT - http://localhost:3001/pacientes/:dni (dni por params, Modificaciones pasado por body)<br>
