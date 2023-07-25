@@ -58,6 +58,9 @@ const Paciente = sequelize.define(
         },
       },
     },
+    ocupacion: {
+      type: DataTypes.STRING,
+    },
     telefono1: {
       type: DataTypes.BIGINT,
       allowNull: false,
@@ -69,6 +72,18 @@ const Paciente = sequelize.define(
     obraSocial: {
       type: DataTypes.ENUM,
       values: ["Particular", "OSDE", "Medifé", "Swiss Medical", "GALENO"],
+    },
+    plan: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    titular: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    afiliado: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
     },
   },
   {
