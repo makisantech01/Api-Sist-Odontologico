@@ -108,7 +108,7 @@ export async function enviarCorreoRestablecimiento(email, token) {
     from: "cristianmurua1995@gmail.com",
     to: email,
     subject: "Restablecimiento de contraseña",
-    html: `Haz clic en el siguiente enlace para restablecer tu contraseña: <a href="http://localhost:5173/restablecer-contrasena?token=${token}">Restablecer contraseña</a>`,
+    html: `Haz clic en el siguiente enlace para restablecer tu contraseña: <a href="https://odontologia-front.vercel.app/restablecer-contrasena?token=${token}">Restablecer contraseña</a>`,
   };
 
   await transporter.sendMail(correo);
