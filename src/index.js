@@ -1,12 +1,13 @@
 import app from "./app.js";
 import sequelize from "./config/config.cjs";
 import { config } from "dotenv";
-config();
-
 import "./models/index.js";
+import initializeData from "./utils/initData.js";
+
+config();
+// initializeData();
 
 const port = process.env.PORT || 3001;
-
 export async function main() {
   try {
     await sequelize.sync({ force: false });
