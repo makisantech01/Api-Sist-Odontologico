@@ -5,7 +5,7 @@ import "./models/index.js";
 import initializeData from "./utils/initData.js";
 
 config();
-initializeData();
+// initializeData();
 
 const port = process.env.PORT || 3001;
 export async function main() {
@@ -19,7 +19,5 @@ export async function main() {
     console.log("Unable to connect to the database", err);
   }
 }
-
-
 
 main();
