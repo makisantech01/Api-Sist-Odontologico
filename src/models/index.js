@@ -1,4 +1,5 @@
 import Consulta from "./consulta.js";
+import Diente from "./diente.js";
 import Historial from "./historial.js";
 import Odontograma from "./odontograma.js";
 import Paciente from "./paciente.js";
@@ -13,5 +14,6 @@ export default {
   historial: Historial,
   producto: Producto,
   odontograma: Odontograma,
+  diente: Diente,
   usuario: Usuario,
 };

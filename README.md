@@ -17,7 +17,7 @@ POST - http://localhost:3001/login<br>
 POST - http://localhost:3001/logout<br>
 POST - http://localhost:3001/enviar-alerta-whatsapp (pendiente de consultas por costos)<br>
 POST - http://localhost:3001/solicitar-restablecimiento/:dni (dni del paciente por params y email por body)<br>
-POST - http://localhost:3001/restablecer-contraseña (token y password por body)<br>
+POST - http://localhost:3001/restablecer-contrasena (token y password por body)<br>
 PUT - http://localhost:3001/actualizar-contraseña (dni y password por body)<br>
 <br>
 Pacientes:<br>
@@ -34,9 +34,13 @@ Ej. {<br>
     "localidad": "Quilmes",<br>
     "nroHistoriaClinica": 123456,<br>
     "email": "cristianmurua1995@gmail.com",<br>
+    "ocupacion": "Programador",<br>
     "telefono1": 1173627751,<br>
     "telefono2": 1132805541,<br>
     "obraSocial": "OSDE"<br>
+    "plan": "ORO"<br>
+    "titular": "CRISTIAN N MURUA"<br>
+    "afiliado": 123456<br>
 }<br>
 <br>
 PUT - http://localhost:3001/pacientes/:dni (dni por params, Modificaciones pasado por body)<br>
@@ -59,6 +63,46 @@ DELETE - http://localhost:3001/consultas/:id<br>
 Turnos:<br>
 GET - http://localhost:3001/turnos devuelve todos los turnos registrados<br>
 GET - http://localhost:3001/turnos?fecha=DD/MM/AAA devuelve todos los turnos registrados en la fecha que se pasa por query<br>
+GET - http://localhost:3001/turnos/disponibilidad devuelve un array con los 30 dias proxios desde la fecha en que se hace la peticion con sus respectivos horarios y sin los sabados y domingos. Tambien posee cada horario una propiedad disponible en true o false, dependiendo de si ya existe un turno en esa fecha y hora en concreto <br>
+Ej. <br>
+{<br>
+            "dia": "lunes",<br>
+            "fecha": "10/07/2023",<br>
+            "horasDisponibles": [<br>
+                {<br>
+                    "hora": "16:00",<br>
+                    "disponible": true<br>
+                },<br>
+                {<br>
+                    "hora": "16:30",<br>
+                    "disponible": true<br>
+                },<br>
+                {<br>
+                    "hora": "17:00",<br>
+                    "disponible": true<br>
+                },<br>
+                {<br>
+                    "hora": "17:30",<br>
+                    "disponible": false<br>
+                },<br>
+                {<br>
+                    "hora": "18:00",<br>
+                    "disponible": true<br>
+                },<br>
+                {<br>
+                    "hora": "18:30",<br>
+                    "disponible": false<br>
+                },<br>
+                {<br>
+                    "hora": "19:00",<br>
+                    "disponible": true<br>
+                },<br>
+                {<br>
+                    "hora": "19:30",<br>
+                    "disponible": false<br>
+                }<br>
+            ]<br>
+        }, <br>  
 GET - http://localhost:3001/turnos/:id devuelve la consulta registrada con el id pasado por params<br>
 POST - http://localhost:3001/turnos/:dni crea una consulta asociada al paciente con el dni pasado por params<br>
 {<br>

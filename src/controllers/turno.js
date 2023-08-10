@@ -6,26 +6,43 @@ import {
   agregarEventoCalendario,
 } from "../middlewares/calendar.js";
 
+import { generarDiasConHorasDisponibles } from "../middlewares/diasHoras.js";
+
+import moment from "moment";
+
 export const getAllTurnos = async (req, res) => {
   const { fecha } = req.query;
   if (fecha) {
-    console.log(fecha);
-    const [dia, mes, anio] = fecha.split("-");
-    const fechaBusqueda = new Date(anio, mes - 1, dia);
+    const [dia, mes, año] = fecha.split("/");
+    const fechaBusqueda = new Date(año, mes - 1, dia);
     const fechaISO = fechaBusqueda.toISOString().split("T")[0]; // Convertir la fecha a formato ISO
-    console.log(fechaISO);
+
     const turnos = await Turno.findAll({
-      where: {
-        fecha: fechaISO,
-      },
+      where: { fecha: fechaISO },
       include: [{ model: Paciente }],
     });
-    response(res, 200, turnos);
+    const turnosFormateados = turnos.map((turno) => {
+      const fechaOriginal = new Date(turno.fecha);
+      const fechaFormateada = `${fechaOriginal
+        .getUTCDate()
+        .toString()
+        .padStart(2, "0")}/${(fechaOriginal.getUTCMonth() + 1)
+        .toString()
+        .padStart(2, "0")}/${fechaOriginal.getUTCFullYear()}`;
+      return { ...turno.toJSON(), fecha: fechaFormateada };
+    });
+
+    response(res, 200, turnosFormateados);
   } else {
     const turno = await Turno.findAll({
       include: [{ model: Paciente }],
     });
-    response(res, 200, turno);
+    const turnoFormateados = turno.map((t) => {
+      const fechaOriginal = moment(t.fecha);
+      const fechaFormateada = fechaOriginal.format("DD/MM/YYYY");
+      return { ...t.toJSON(), fecha: fechaFormateada };
+    });
+    response(res, 200, turnoFormateados);
   }
 };
 
@@ -40,7 +57,12 @@ export const getTurno = async (req, res) => {
 export const createTurno = async (req, res) => {
   const { dni } = req.params;
   const currentPaciente = await Paciente.findByPk(dni);
-
+  if (!dni) {
+    response(res, 400, { message: "Falta DNI asociado al turno" });
+  }
+  if (!currentPaciente) {
+    response(res, 404, { message: "No se encontro un paciente con ese DNI" });
+  }
   // Obtén el día y hora del turno que deseas crear
   const fechaTurno = req.body.fecha;
   const horaTurno = req.body.hora;
@@ -58,7 +80,7 @@ export const createTurno = async (req, res) => {
 
   if (turnosExistente) {
     return res
-      .status(400)
+      .status(409)
       .json({ error: "Ya existe un turno en la misma hora" });
   }
 
@@ -117,4 +139,9 @@ export const deleteTurno = async (req, res) => {
   const turno = await Turno.findByPk(id);
   await turno.destroy();
   response(res, 200, `Turno Id: ${id} eliminado!`);
+};
+
+export const disponibilidad = async (req, res) => {
+  const diasConHorasDisponibles = await generarDiasConHorasDisponibles();
+  response(res, 200, diasConHorasDisponibles);
 };

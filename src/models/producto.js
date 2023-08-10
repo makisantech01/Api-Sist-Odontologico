@@ -25,6 +25,14 @@ const Producto = sequelize.define(
     },
     vencimiento: {
       type: DataTypes.DATEONLY,
+
+      set(value) {
+        if (value) {
+          const [dia, mes, anio] = value.split("/");
+          const fechaSinConversion = new Date(anio, mes - 1, dia); // Restamos 1 al mes ya que los meses en JavaScript son base 0
+          this.setDataValue("vencimiento", fechaSinConversion);
+        }
+      },
     },
     stockMinimo: {
       type: DataTypes.INTEGER,

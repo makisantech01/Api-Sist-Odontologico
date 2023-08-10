@@ -25,8 +25,15 @@ const Paciente = sequelize.define(
       allowNull: false,
     },
     fechaNacimiento: {
-      type: DataTypes.DATE,
+      type: DataTypes.DATEONLY,
       allowNull: false,
+      set(value) {
+        if (value) {
+          const [dia, mes, anio] = value.split("/");
+          const fechaSinConversion = new Date(anio, mes - 1, dia); // Restamos 1 al mes ya que los meses en JavaScript son base 0
+          this.setDataValue("fechaNacimiento", fechaSinConversion);
+        }
+      },
     },
     domicilio: {
       type: DataTypes.STRING,
@@ -38,7 +45,8 @@ const Paciente = sequelize.define(
     },
     nroHistoriaClinica: {
       type: DataTypes.INTEGER,
-      allowNull: false,
+      defaultValue: null,
+      unique: true,
     },
     email: {
       type: DataTypes.STRING,
@@ -49,6 +57,9 @@ const Paciente = sequelize.define(
           msg: "Debe proporcionar una dirección de correo electrónico válida.",
         },
       },
+    },
+    ocupacion: {
+      type: DataTypes.STRING,
     },
     telefono1: {
       type: DataTypes.BIGINT,
@@ -61,6 +72,18 @@ const Paciente = sequelize.define(
     obraSocial: {
       type: DataTypes.ENUM,
       values: ["Particular", "OSDE", "Medifé", "Swiss Medical", "GALENO"],
+    },
+    plan: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    titular: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    afiliado: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
     },
   },
   {

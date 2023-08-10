@@ -36,3 +36,11 @@ export const deleteOdontograma = async (req, res) => {
   await odontograma.destroy();
   response(res, 200, `Odontograma DNI: ${id} eliminado!`);
 };
+
+export default {
+  getAllOdontogramas,
+  getOdontograma,
+  createOdontograma,
+  updateOdontograma,
+  deleteOdontograma,
+};

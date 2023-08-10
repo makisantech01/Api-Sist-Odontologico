@@ -8,6 +8,7 @@ import odontogramas from "./odontogramas.js";
 import usuarios from "./usuarios.js";
 import login from "./login.js";
 import calendar from "./calendar.js";
+import dientes from "./dientes.js";
 
 const router = Router();
 
@@ -17,6 +18,7 @@ router.use("/turnos", turnos);
 router.use("/historiales", historiales);
 router.use("/productos", productos);
 router.use("/odontogramas", odontogramas);
+router.use("/dientes", dientes);
 router.use("/usuarios", usuarios);
 router.use("/", login);
 router.use("/google", calendar);

@@ -108,17 +108,15 @@ export async function enviarCorreoRestablecimiento(email, token) {
     from: "cristianmurua1995@gmail.com",
     to: email,
     subject: "Restablecimiento de contraseña",
-    html: `Haz clic en el siguiente enlace para restablecer tu contraseña: <a href="https://localhost:5173/restablecer-contrasena?token=${token}">Restablecer contraseña</a>`,
+    html: `Haz clic en el siguiente enlace para restablecer tu contraseña: <a href="http://localhost:5173/restablecer-contrasena?token=${token}">Restablecer contraseña</a>`,
   };
 
   await transporter.sendMail(correo);
 }
 
 // Paso 3: Crear una ruta para manejar las solicitudes de restablecimiento de contraseña
-export async function restablecerContraseña(req, res) {
+export async function restablecerContraseña(token, password, res) {
   try {
-    const { token, contraseña } = req.body;
-
     // Validar el token
     const decoded = jwt.verify(token, "secreto");
     const usuarioId = decoded.usuarioId;
@@ -129,13 +127,9 @@ export async function restablecerContraseña(req, res) {
       return res.status(404).json({ mensaje: "Usuario no encontrado" });
     }
 
-    const contraseñaHasheada = await bcrypt.hash(contraseña, 10);
-    usuario.contraseña = contraseñaHasheada;
+    const contraseñaHasheada = await bcrypt.hash(password, 10);
+    usuario.password = contraseñaHasheada;
     await usuario.save();
-
-    return res
-      .status(200)
-      .json({ mensaje: "Contraseña restablecida con éxito" });
   } catch (error) {
     console.error("Error al restablecer la contraseña:", error);
     return res.status(500).json({ mensaje: "Error interno del servidor" });
