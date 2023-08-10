@@ -38,6 +38,11 @@ const Diente = sequelize.define("Diente", {
     allowNull: true,
     defaultValue: null,
   },
+  prestacion: {  // Agregamos la propiedad 'prestacion'
+    type: DataTypes.STRING,
+    allowNull: true,
+    defaultValue: null,
+  },
   color: {
     type: DataTypes.STRING,
     allowNull: true,

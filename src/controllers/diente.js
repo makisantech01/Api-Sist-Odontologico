@@ -36,10 +36,11 @@ export const createDiente = async (req, res) => {
     todoElDiente,
     observacion,
     color,
+    prestacion,
   } = req.body;
   try {
     // Verificar si los campos requeridos están presentes
-    if (!numero) {
+    if (!numero || !prestacion) {
       return res.status(400).json({ error: "Faltan campos obligatorios" });
     }
 
@@ -52,6 +53,7 @@ export const createDiente = async (req, res) => {
       todoElDiente,
       observacion,
       color,
+      prestacion,
     });
     res.status(201).json(diente);
   } catch (error) {
@@ -69,6 +71,7 @@ export const updateDiente = async (req, res) => {
     caras,
     todoElDiente,
     observacion,
+    prestacion,
     color,
   } = req.body;
   try {
@@ -79,7 +82,8 @@ export const updateDiente = async (req, res) => {
       !posicionY ||
       !caras ||
       !todoElDiente ||
-      !observacion
+      !observacion ||
+      !prestacion 
     ) {
       return res.status(400).json({ error: "Faltan campos obligatorios" });
     }
@@ -96,7 +100,8 @@ export const updateDiente = async (req, res) => {
     diente.caras = caras;
     diente.todoElDiente = todoElDiente;
     diente.observacion = observacion;
-    diente.color = color; // Agregamos el campo "color" al objeto antes de guardar los cambios
+    diente.color = color;
+    diente.prestacion = prestacion;
     await diente.save();
     res.json(diente);
   } catch (error) {
