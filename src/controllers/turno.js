@@ -68,7 +68,22 @@ export const createTurno = async (req, res) => {
   const horaTurno = req.body.hora;
   const [dia, mes, anio] = fechaTurno.split("/");
   const fecha = new Date(anio, mes - 1, dia);
+  const hora = new Date(anio, mes - 1, dia, horaTurno.split(":")[0], horaTurno.split(":")[1]);
   const fechaISO = fecha.toISOString().split("T")[0]; // Convertir la fecha a formato ISO
+
+
+  // Obtiene la hora actual
+  const horaActual = new Date();
+
+
+  // Verifica si la fecha es el mismo día y la hora es después de las 12:00 pm
+  if (
+    fecha.getDate() === horaActual.getDate() &&
+    hora.getHours() >= 12
+  ) {
+    return res.status(400).json({ error: "No se pueden crear turnos en el mismo día después de las 12:00 pm." });
+  }
+
 
   // Busca los turnos existentes para el mismo día y hora
   const turnosExistente = await Turno.findOne({
@@ -137,8 +152,22 @@ export const updateTurno = async (req, res) => {
 export const deleteTurno = async (req, res) => {
   const { id } = req.params;
   const turno = await Turno.findByPk(id);
+
+  if (!turno) {
+    return response(res, 404, `Turno Id: ${id} no encontrado`);
+  }
+
+  const horaActual = new Date(); // Hora actual del servidor
+
+  if (
+    turno.fecha.getTime() === horaActual.getTime() && // Misma fecha
+    horaActual.getHours() >= 11 // Hora es 11:00 am o posterior
+  ) {
+    return response(res, 400, `No se puede eliminar el turno después de las 11:00 am del mismo día`);
+  }
+
   await turno.destroy();
-  response(res, 200, `Turno Id: ${id} eliminado!`);
+  response(res, 200, `Turno Id: ${id} eliminado`);
 };
 
 export const disponibilidad = async (req, res) => {
