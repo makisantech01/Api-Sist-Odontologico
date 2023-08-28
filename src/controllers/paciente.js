@@ -40,11 +40,16 @@ export const getPaciente = async (req, res) => {
 };
 
 export const createPaciente = async (req, res) => {
-  const { id } = req.params;
-  const currentUsuario = await Usuario.findByPk(id);
-  const newPaciente = await Paciente.create(req.body);
-  await currentUsuario?.setPaciente(newPaciente);
-  response(res, 200, newPaciente);
+  try {
+    const { id } = req.params;
+    const currentUsuario = await Usuario.findByPk(id);
+    const newPaciente = await Paciente.create(req.body);
+    await currentUsuario?.setPaciente(newPaciente);
+    response(res, 200, newPaciente);
+  } catch (error) {
+    console.error('Error al crear el paciente:', error);
+    response(res, 500, { message: 'Error al crear el paciente', error: error.message });
+  }
 };
 
 export const updatePaciente = async (req, res) => {

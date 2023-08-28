@@ -82,7 +82,7 @@ const Paciente = sequelize.define(
       allowNull: false,
     },
     afiliado: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.BIGINT,
       allowNull: false,
     },
   },
