@@ -99,13 +99,13 @@ export async function enviarCorreoRestablecimiento(email, token) {
     // Configura tu transporte de correo electrónico aquí
     service: "gmail",
     auth: {
-      user: "cristianmurua1995@gmail.com",
-      pass: "rlaksbuezbambzdl",
+      user: "conident.odontologa@gmail.com",
+      pass: "plxbgqmjhobyzumw",
     },
   });
 
   const correo = {
-    from: "cristianmurua1995@gmail.com",
+    from: "conident.odontologa@gmail.com",
     to: email,
     subject: "Restablecimiento de contraseña",
     html: `Haz clic en el siguiente enlace para restablecer tu contraseña: <a href="http://localhost:5173/restablecer-contrasena?token=${token}">Restablecer contraseña</a>`,

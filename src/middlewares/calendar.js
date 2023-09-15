@@ -7,15 +7,15 @@ dotenv.config();
 const transporter = nodemailer.createTransport({
   service: "gmail",
   auth: {
-    user: "cristianmurua1995@gmail.com",
-    pass: "rlaksbuezbambzdl",
+    user: "conident.odontologa@gmail.com",
+    pass: "plxbgqmjhobyzumw",
   },
 });
 
 // Función para enviar el correo electrónico
 export const enviarCorreo = async (email, asunto, contenido) => {
   const mailOptions = {
-    from: "cristianmurua1995@gmail.com",
+    from: "conident.odontologa@gmail.com",
     to: email,
     subject: asunto,
     text: contenido,
