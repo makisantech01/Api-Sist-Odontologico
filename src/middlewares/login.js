@@ -100,7 +100,7 @@ export async function enviarCorreoRestablecimiento(email, token) {
     service: "gmail",
     auth: {
       user: "conident.odontologa@gmail.com",
-      pass: "plxbgqmjhobyzumw",
+      pass: "ggxngnliwvqyujap",
     },
   });
 
