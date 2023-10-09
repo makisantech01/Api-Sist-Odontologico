@@ -8,6 +8,7 @@ config();
 // initializeData();
 
 const port = process.env.PORT || 3001;
+
 export async function main() {
   try {
     await sequelize.sync({ force: false });
