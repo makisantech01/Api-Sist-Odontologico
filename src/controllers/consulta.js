@@ -21,22 +21,24 @@ export const getConsulta = async (req, res) => {
 
 export const createConsulta = async (req, res) => {
   const { dni } = req.params;
-  const { productos, ...consultaData } = req.body;
+  // const { productos, ...consultaData } = req.body;
+  const { ...consultaData } = req.body;
+
   const currentPaciente = await Paciente.findByPk(dni);
   const newConsulta = await Consulta.create(consultaData);
   await currentPaciente?.addConsulta(newConsulta);
-  for (const producto of productos) {
-    const { id, cantidad } = producto;
+  // for (const producto of productos) {
+  //   const { id, cantidad } = producto;
 
-    // Buscar el producto en la base de datos
-    const productoExistente = await Producto.findByPk(id);
+  //   // Buscar el producto en la base de datos
+  //   const productoExistente = await Producto.findByPk(id);
 
-    if (productoExistente) {
-      // Actualizar el stock del producto restando la cantidad utilizada
-      productoExistente.cantidad -= cantidad;
-      await productoExistente.save();
-    }
-  }
+  //   if (productoExistente) {
+  //     // Actualizar el stock del producto restando la cantidad utilizada
+  //     productoExistente.cantidad -= cantidad;
+  //     await productoExistente.save();
+  //   }
+  // }
   response(res, 200, newConsulta);
 };
 
