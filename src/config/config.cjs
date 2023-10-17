@@ -4,8 +4,6 @@ const path = require("path")
 
 const { EXTERNAL_DB, DB_HOST, DB_PASSWORD, DB_PORT, DB_USER, DB_NAME, NODE_ENV } = process.env
 
-console.log(NODE_ENV)
-
 let connectionConfig =
 	NODE_ENV === "local"
 		? `postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_NAME}`

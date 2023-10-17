@@ -16,6 +16,7 @@ export const getOdontograma = async (req, res) => {
 };
 
 export const createOdontograma = async (req, res) => {
+  console.log('create odonto')
   const { id } = req.params;
   const currentConsulta = await Consulta.findByPk(id);
   const newOdontograma = await Odontograma.create(req.body);
