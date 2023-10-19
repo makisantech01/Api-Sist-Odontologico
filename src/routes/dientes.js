@@ -12,7 +12,7 @@ const router = Router();
 
 router.get("/", catchedAsync(getAllDientes));
 router.get("/:id", catchedAsync(getDienteById));
-router.post("/", catchedAsync(createDiente));
+router.post("/:id", catchedAsync(createDiente));
 router.put("/:id", catchedAsync(updateDiente));
 router.delete("/:id", catchedAsync(deleteDiente));
 

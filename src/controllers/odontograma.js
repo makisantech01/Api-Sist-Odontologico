@@ -1,6 +1,7 @@
 import response from "../utils/response.js";
 import Odontograma from "../models/odontograma.js";
 import Consulta from "../models/consulta.js";
+import Diente from "../models/diente.js";
 
 export const getAllOdontogramas = async (req, res) => {
   const odontograma = await Odontograma.findAll();
@@ -9,7 +10,9 @@ export const getAllOdontogramas = async (req, res) => {
 
 export const getOdontograma = async (req, res) => {
   const { id } = req.params;
-  const odontograma = await Odontograma.findByPk(id);
+  const odontograma = await Odontograma.findByPk(id, {
+    include: [{ model: Diente }],
+  });
   !odontograma
     ? response(res, 404, { message: "Odontograma no encontrado!" })
     : response(res, 200, odontograma);

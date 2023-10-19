@@ -26,8 +26,6 @@ export const createConsulta = async (req, res) => {
   const currentPaciente = await Paciente.findByPk(dni);
   const newConsulta = await Consulta.create(consultaData);
   await currentPaciente?.addConsulta(newConsulta);
-
-  console.log(newConsulta)
   // for (const producto of productos) {
   //   const { id, cantidad } = producto;
 

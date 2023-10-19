@@ -1,86 +1,110 @@
-import { DataTypes, UUIDV4 } from "sequelize";
-import sequelize from "../config/config.cjs";
-import Odontograma from "./odontograma.js";
-import Producto from "./producto.js";
+import { DataTypes, UUIDV4 } from "sequelize"
+import sequelize from "../config/config.cjs"
+import Odontograma from "./odontograma.js"
+import Producto from "./producto.js"
 
 const Consulta = sequelize.define(
-  "consulta",
-  {
-    id: {
-      type: DataTypes.UUID,
-      defaultValue: DataTypes.UUIDV4,
-      allowNull: false,
-      primaryKey: true,
-    },
-    fecha: {
-      type: DataTypes.DATEONLY,
-      allowNull: false,
-      defaultValue: DataTypes.NOW,
-      // get() {
-      //   const rawValue = this.getDataValue("fecha");
-      //   // const testValue = this.fecha
-      //   console.log(testValue)
-      //   if (rawValue) {
-      //     const formattedDate = rawValue.toLocaleDateString("es-ES", {
-      //       day: "2-digit",
-      //       month: "2-digit",
-      //       year: "numeric",
-      //     });
-      //     return formattedDate;
-      //   }
-      //   return null;
-      // },
-    },
-    prestacion: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    zona: {
-      type: DataTypes.ENUM,
-      values: ["Vestibular", "Paladar", "Mencial", "Distal"],
-      allowNull: false,
-    },
-    caras: {
-      type: DataTypes.ENUM,
-      values: ["V", "M", "P", "L", "O", "I", "D", "G"],
-      allowNull: false,
-    },
-    sector: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-    },
-    observaciones: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-  },
-  {
-    timestamps: false,
-  }
-);
+	"consulta",
+	{
+		id: {
+			type: DataTypes.UUID,
+			defaultValue: DataTypes.UUIDV4,
+			allowNull: false,
+			primaryKey: true,
+		},
+		fecha: {
+			type: DataTypes.DATEONLY,
+			allowNull: false,
+			defaultValue: DataTypes.NOW,
+			get() {
+			  const rawValue = this.getDataValue("fecha");
+        console.log('raw:', rawValue)
+        const date = new Date(rawValue)
+        console.log('date:', date)
+			  if (rawValue) {
+          const formattedDate = date.toLocaleDateString("es-ES", {
+            day: "2-digit",
+			      month: "2-digit",
+			      year: "numeric",
+			    });
+          console.log('formatted date:', formattedDate)
+          // BUG - formattedDate tiene como valor un dia menos que rawValue
+			    return formattedDate;
+			  }
+			  return null;
+			},
+		},
+		// 	get() {
+		// 	  const rawValue = this.getDataValue("fecha");
+		// 	  if (rawValue) {
+		// 	    const formattedDate = rawValue.toLocaleDateString("es-ES", {
+		// 	      day: "2-digit",
+		// 	      month: "2-digit",
+		// 	      year: "numeric",
+		// 	    });
+		// 	    return formattedDate;
+		// 	  }
+		// 	  return null;
+		// 	},
+		// },
+		prestacion: {
+			type: DataTypes.STRING,
+			allowNull: false,
+		},
+		zona: {
+			type: DataTypes.ENUM,
+			values: ["Vestibular", "Paladar", "Mencial", "Distal"],
+			allowNull: false,
+		},
+		caras: {
+			type: DataTypes.ENUM,
+			values: ["V", "M", "P", "L", "O", "I", "D", "G"],
+			allowNull: false,
+		},
+		sector: {
+			type: DataTypes.INTEGER,
+			allowNull: false,
+		},
+		observaciones: {
+			type: DataTypes.STRING,
+			allowNull: false,
+		},
+	},
+	{
+		timestamps: false,
+	}
+)
 
 Consulta.beforeCreate((instance, options) => {
-  instance.fecha = new Date();
-});
+	instance.fecha = new Date()
+})
 
 Consulta.hasOne(Odontograma, {
-  foreignKey: "consultaId",
-  sourceKey: "id",
-});
+	foreignKey: "consultaId",
+})
 
 Odontograma.belongsTo(Consulta, {
-  foreignKey: "consultaId",
-  targetId: "id",
-});
+	foreignKey: "consultaId",
+})
+
+// Consulta.hasOne(Odontograma, {
+//   foreignKey: "consultaId",
+//   sourceKey: "id",
+// });
+
+// Odontograma.belongsTo(Consulta, {
+//   foreignKey: "consultaId",
+//   targetId: "id",
+// });
 
 Consulta.hasMany(Producto, {
-  foreignKey: "consultaId",
-  sourceKey: "id",
-});
+	foreignKey: "consultaId",
+	sourceKey: "id",
+})
 
 Producto.belongsTo(Consulta, {
-  foreignKey: "consultaId",
-  targetId: "id",
-});
+	foreignKey: "consultaId",
+	targetId: "id",
+})
 
-export default Consulta;
+export default Consulta

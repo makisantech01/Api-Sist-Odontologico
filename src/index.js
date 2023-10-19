@@ -14,6 +14,7 @@ export async function main() {
 		await sequelize.sync(
       { 
         force: false,
+        // force: true,
         // alter: true,
       })
 		console.log("DB Connection success!")
