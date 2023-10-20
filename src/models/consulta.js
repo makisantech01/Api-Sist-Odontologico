@@ -18,7 +18,6 @@ const Consulta = sequelize.define(
 			defaultValue: DataTypes.NOW,
 			get() {
 			  const rawValue = this.getDataValue("fecha");
-        console.log('raw:', rawValue)
         const date = new Date(rawValue)
         console.log('date:', date)
 			  if (rawValue) {

@@ -10,15 +10,41 @@ const Diente = sequelize.define(
 			allowNull: false,
 			primaryKey: true,
 		},
-		texto: {
-			type: DataTypes.STRING,
-			allowNull: true,
-		},
 		name: {
 			type: DataTypes.STRING,
 			allowNull: false,
 		},
-		state: {
+		face1: {
+			type: DataTypes.ENUM,
+			values: ["white", "gray", "green", "red", "blue", "yellow", "purple"],
+			allowNull: true,
+			defaultValue: "white",
+		},
+		face2: {
+			type: DataTypes.ENUM,
+			values: ["white", "gray", "green", "red", "blue", "yellow", "purple"],
+			allowNull: true,
+			defaultValue: "white",
+		},
+		face3: {
+			type: DataTypes.ENUM,
+			values: ["white", "gray", "green", "red", "blue", "yellow", "purple"],
+			allowNull: true,
+			defaultValue: "white",
+		},
+		face4: {
+			type: DataTypes.ENUM,
+			values: ["white", "gray", "green", "red", "blue", "yellow", "purple"],
+			allowNull: true,
+			defaultValue: "white",
+		},
+		face5: {
+			type: DataTypes.ENUM,
+			values: ["white", "gray", "green", "red", "blue", "yellow", "purple"],
+			allowNull: true,
+			defaultValue: "white",
+		},
+		face6: {
 			type: DataTypes.ENUM,
 			values: ["white", "gray", "green", "red", "blue", "yellow", "purple"],
 			allowNull: true,
@@ -31,28 +57,3 @@ const Diente = sequelize.define(
 )
 
 export default Diente
-
-// {
-// 	name: "restaurado",
-// 	color: "gray",
-// },
-// {
-// 	name: "cariado",
-// 	color: "green",
-// },
-// {
-// 	name: "restaurado",
-// 	color: "red",
-// },
-// {
-// 	name: "higido",
-// 	color: "blue",
-// },
-// {
-// 	name: "corona",
-// 	color: "yellow",
-// },
-// {
-// 	name: "implantedental",
-// 	color: "purple",
-// },

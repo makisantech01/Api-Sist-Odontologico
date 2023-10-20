@@ -21,9 +21,6 @@ export const getPaciente = async (req, res) => {
 	const paciente = await Paciente.findByPk(
 		dni,
 		{ include: { all: true, nested: true } }
-		//   {
-		//   include: [{ model: Historial }, { model: Consulta }],
-		// }
 	)
 
 	if (!paciente) {

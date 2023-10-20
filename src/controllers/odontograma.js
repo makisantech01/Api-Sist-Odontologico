@@ -22,27 +22,20 @@ export const getOdontograma = async (req, res) => {
 export const createOdontograma = async (req, res) => {
 	try {
 		const { id } = req.params
-		const { child } = req.query // Verifica si se recibe el parámetro "adult"
-
-		// Determina la cantidad de dientes a crear
-		const cantidadDientes = child ? 30 : 40
+		const { child } = req.query // verifica el booleano en caso de ser niño
 
 		const currentConsulta = await Consulta.findByPk(id)
 		const newOdontograma = await Odontograma.create()
 		await currentConsulta?.setOdontograma(newOdontograma)
-
-		// Crear un arreglo de dientes para bulkCreate
+		
+		const cantidadDientes = child ? 20 : 36
 		const dientesData = []
 		for (let i = 1; i <= cantidadDientes; i++) {
 			dientesData.push({
 				name: `diente${i}`,
 			})
 		}
-
-		// Utilizar bulkCreate para crear los dientes
 		const createdDientes = await Diente.bulkCreate(dientesData)
-
-		// Relacionar los dientes al odontograma
 		await newOdontograma.setDientes(createdDientes)
 
 		response(res, 200, newOdontograma)

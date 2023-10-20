@@ -10,7 +10,7 @@ export const getAllConsultas = async (req, res) => {
   include: [
     {
       model: Odontograma,
-      attributes: ['id'], // Especifica aquí los atributos que deseas seleccionar
+      attributes: ['id'],
     },
   ],
 });
