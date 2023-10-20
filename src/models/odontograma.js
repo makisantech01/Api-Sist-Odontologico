@@ -16,17 +16,14 @@ const Odontograma = sequelize.define(
 			allowNull: false,
 			defaultValue: DataTypes.NOW,
 		},
-		data: {
-			type: DataTypes.JSONB,
-			allowNull: true,
-		},
 	},
 	{
 		timestamps: false,
 	}
 )
 
-// Odontograma.hasMany(Diente, { foreignKey: "odontogramaId" })
-// Diente.belongsTo(Odontograma, { foreignKey: "odontogramaId" })
+//DIENTES
+Odontograma.hasMany(Diente, { foreignKey: "odontogramaId" })
+Diente.belongsTo(Odontograma, { foreignKey: "odontogramaId" })
 
 export default Odontograma

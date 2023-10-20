@@ -3,6 +3,7 @@ import sequelize from "./config/config.cjs"
 import { config } from "dotenv"
 import "./models/index.js"
 import initializeData from "./utils/initData.js"
+import bulkCreateOptions from './config/database/bulkCreateOptions.js'
 
 config()
 // initializeData();
@@ -17,6 +18,7 @@ export async function main() {
         // force: true,
         // alter: true,
       })
+			await bulkCreateOptions()
 		console.log("DB Connection success!")
 		app.listen(port)
 		console.log(`Server listening on port ${port}`)

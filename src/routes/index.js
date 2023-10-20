@@ -9,6 +9,7 @@ import usuarios from "./usuarios.js";
 import login from "./login.js";
 import calendar from "./calendar.js";
 import dientes from "./dientes.js";
+import options from './options.js'
 
 const router = Router();
 
@@ -19,6 +20,7 @@ router.use("/historiales", historiales);
 router.use("/productos", productos);
 router.use("/odontogramas", odontogramas);
 router.use("/dientes", dientes);
+router.use("/options", options);
 router.use("/usuarios", usuarios);
 router.use("/", login);
 router.use("/google", calendar);
