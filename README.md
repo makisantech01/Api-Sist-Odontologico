@@ -173,7 +173,7 @@ DELETE - http://localhost:3001/productos/:id<br>
 Odontogramas:<br>
 GET - http://localhost:3001/odontogramas<br>
 GET - http://localhost:3001/odontogramas/:id<br>
-POST - http://localhost:3001/odontogramas/:id Se pasa el id por params de la consulta asociada al organigrama<br>
+POST - http://localhost:3001/odontogramas/:id Se pasa el id por params de la consulta asociada al organigrama, se pasa por query un booleano child para crear la cantidad de dientes correspondientes a la edad<br>
 {<br>
     "datos": {<br>
         "18": { "extras": { "Cross": "red" } },<br>
@@ -197,3 +197,5 @@ POST - http://localhost:3001/turnos/:dni crea una consulta asociada al paciente 
     "hora": "16:00",<br>
     "estado": true,<br>
 }<br>
+Opciones: <br>
+GET - http://localhost:3001/options trae todas las opciones del odontograma
