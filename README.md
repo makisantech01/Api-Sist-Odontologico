@@ -179,8 +179,8 @@ DELETE - http://localhost:3001/odontogramas/:id<br>
 <br>
 
 ## Dientes:
-GET - http://localhost:3001/dientes - Solicitar los datos de un diente
-GET - http://localhost:3001/dientes/:id - Solicitar los datos de un diente
+GET - http://localhost:3001/dientes - Solicitar los datos de un diente <br>
+GET - http://localhost:3001/dientes/:id - Solicitar los datos de un diente <br>
 PUT - http://localhost:3001/dientes/:id?face=1&color=gray - Se pasa por params el id del diente y por query se pasa la cara a editar y el color
 
 ## Opciones
