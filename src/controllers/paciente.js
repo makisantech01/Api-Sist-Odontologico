@@ -7,12 +7,12 @@ import moment from "moment"
 
 export const getAllPacientes = async (req, res) => {
 	const pacientes = await Paciente.findAll()
-
 	const pacientesFormateados = pacientes.map(paciente => {
 		const fechaOriginal = moment(paciente.fechaNacimiento)
 		const fechaFormateada = fechaOriginal.format("DD/MM/YYYY")
 		return { ...paciente.toJSON(), fechaNacimiento: fechaFormateada }
 	})
+	
 	response(res, 200, pacientesFormateados)
 }
 

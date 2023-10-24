@@ -7,12 +7,7 @@ import Usuario from "../models/usuario.js"
 
 export const getAllConsultas = async (req, res) => {
 	const consultas = await Consulta.findAll({
-  include: [
-    {
-      model: Odontograma,
-      attributes: ['id'],
-    },
-  ],
+  include: [{ model: Odontograma, attributes: ['id'] }],
 });
 	response(res, 200, consultas)
 }
@@ -22,6 +17,7 @@ export const getConsulta = async (req, res) => {
 	const consulta = await Consulta.findByPk(id, {
 		include: [{ model: Paciente }, { model: Odontograma }, { model: Producto }],
 	})
+
 	response(res, 200, consulta)
 }
 

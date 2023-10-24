@@ -2,8 +2,6 @@ import response from "../utils/response.js"
 import Odontograma from "../models/odontograma.js"
 import Consulta from "../models/consulta.js"
 import Diente from "../models/diente.js"
-import Paciente from "../models/paciente.js"
-import Usuario from "../models/usuario.js"
 
 export const getAllOdontogramas = async (req, res) => {
 	const odontograma = await Odontograma.findAll()
@@ -13,7 +11,10 @@ export const getAllOdontogramas = async (req, res) => {
 export const getOdontograma = async (req, res) => {
 	const { id } = req.params
 	const odontograma = await Odontograma.findByPk(id, {
-		include: [{ model: Diente }],
+		include: Diente,
+		order: [
+			[Diente, 'number', 'ASC']
+		]
 	})
 
 	!odontograma ? response(res, 404, { message: "Odontograma no encontrado!" }) : response(res, 200, odontograma)
@@ -25,22 +26,25 @@ export const createOdontograma = async (req, res) => {
 		const { child } = req.query // verifica el booleano en caso de ser niño
 
 		const currentConsulta = await Consulta.findByPk(id)
+		if (!currentConsulta) throw new Error('no se encontró la consulta especificada')
+		if(Consulta.odontograma) throw new Error('La consulta ya tiene un odontograma asociado')
+
 		const newOdontograma = await Odontograma.create()
 		await currentConsulta?.setOdontograma(newOdontograma)
-		
+
 		const cantidadDientes = child ? 20 : 36
 		const dientesData = []
 		for (let i = 1; i <= cantidadDientes; i++) {
 			dientesData.push({
-				name: `diente${i}`,
+				number: i,
 			})
 		}
 		const createdDientes = await Diente.bulkCreate(dientesData)
 		await newOdontograma.setDientes(createdDientes)
-
 		response(res, 200, newOdontograma)
+
 	} catch (error) {
-		console.error("Error al crear el odontograma:", error)
+		console.error("Error al crear el odontograma:", error.message)
 		response(res, 500, "Error interno del servidor")
 	}
 }
@@ -56,7 +60,7 @@ export const deleteOdontograma = async (req, res) => {
 	const { id } = req.params
 	const odontograma = await Odontograma.findByPk(id)
 	await odontograma.destroy()
-	response(res, 200, `Odontograma DNI: ${id} eliminado!`)
+	response(res, 200, `Odontograma: ${id} eliminado!`)
 }
 
 export default {

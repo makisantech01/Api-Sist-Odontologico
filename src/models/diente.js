@@ -10,8 +10,8 @@ const Diente = sequelize.define(
 			allowNull: false,
 			primaryKey: true,
 		},
-		name: {
-			type: DataTypes.STRING,
+		number: {
+			type: DataTypes.INTEGER,
 			allowNull: false,
 		},
 		face1: {

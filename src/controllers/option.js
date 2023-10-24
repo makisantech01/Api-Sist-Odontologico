@@ -13,10 +13,10 @@ export const deleteAllOptions = async (req, res) => {
 			truncate: true, // Reinicia el contador de autoincremento (si existe)
 		})
 		console.log("Options deleted succesfully")
+		response(res, 200, "Options deleted succesfully")
 
 	} catch (error) {
-		console.error("Option delete error:", error)
+		console.error("Options delete error:", error)
 	}
 
-	response(res, 200)
 }

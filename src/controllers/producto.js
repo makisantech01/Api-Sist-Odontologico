@@ -15,6 +15,7 @@ export const getAllProductos = async (req, res) => {
 export const getProducto = async (req, res) => {
   const { id } = req.params;
   const producto = await Producto.findByPk(id);
+  
   if (!producto) {
     response(res, 404, { message: "Producto no encontrado!" });
   } else {
