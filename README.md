@@ -1,6 +1,6 @@
-rutas de la Api:<br>
-<br>
-Usuarios:<br>
+# Rutas de la Api:<br>
+
+## Usuarios:
 GET - http://localhost:3001/usuarios devuelve todos los usuarios registrados <br>
 GET - http://localhost:3001/usuarios/:dni devuelve el usuario registrado con el dni pasado por params<br>
 POST - http://localhost:3001/usuarios crea usuario pasando la info por body<br>
@@ -11,16 +11,16 @@ Ej. {<br>
 }<br>
 PUT - http://localhost:3001/usuarios/:dni (dni por params y modificacion por body - el dni no deberia tener que actualizar asi que es la ruta para actualizar la contraseña)<br>
 DELETE - http://localhost:3001/usuarios/:dni<br>
-<br>
-Login:<br>
+
+## Login:
 POST - http://localhost:3001/login<br>
 POST - http://localhost:3001/logout<br>
 POST - http://localhost:3001/enviar-alerta-whatsapp (pendiente de consultas por costos)<br>
 POST - http://localhost:3001/solicitar-restablecimiento/:dni (dni del paciente por params y email por body)<br>
 POST - http://localhost:3001/restablecer-contrasena (token y password por body)<br>
 PUT - http://localhost:3001/actualizar-contraseña (dni y password por body)<br>
-<br>
-Pacientes:<br>
+
+## Pacientes:
 GET - http://localhost:3001/pacientes devuelve todos los pacientes registrados<br>
 GET - http://localhost:3001/pacientes/:dni devuelve el paciente registrado con el dni pasado por params<br>
 POST - http://localhost:3001/pacientes/:id (id de usuario (dni) por params para asociar el paciente)<br>
@@ -45,8 +45,8 @@ Ej. {<br>
 <br>
 PUT - http://localhost:3001/pacientes/:dni (dni por params, Modificaciones pasado por body)<br>
 DELETE - http://localhost:3001/pacientes/:dni (dni por params)<br>
-<br>
-Consultas:<br>
+
+## Consultas:
 GET - http://localhost:3001/consultas devuelve todas las consultas registradas<br>
 GET - http://localhost:3001/consultas/:id devuelve la consulta registrada con el id pasado por params<br>
 POST - http://localhost:3001/consultas/:dni crea una consulta asociada al paciente con el dni pasado por params<br>
@@ -59,8 +59,8 @@ POST - http://localhost:3001/consultas/:dni crea una consulta asociada al pacien
 }<br>
 PUT - http://localhost:3001/consultas/:id<br>
 DELETE - http://localhost:3001/consultas/:id<br>
-<br>
-Turnos:<br>
+
+## Turnos:
 GET - http://localhost:3001/turnos devuelve todos los turnos registrados<br>
 GET - http://localhost:3001/turnos?fecha=DD/MM/AAA devuelve todos los turnos registrados en la fecha que se pasa por query<br>
 GET - http://localhost:3001/turnos/disponibilidad devuelve un array con los 30 dias proxios desde la fecha en que se hace la peticion con sus respectivos horarios y sin los sabados y domingos. Tambien posee cada horario una propiedad disponible en true o false, dependiendo de si ya existe un turno en esa fecha y hora en concreto <br>
@@ -112,8 +112,8 @@ POST - http://localhost:3001/turnos/:dni crea una consulta asociada al paciente 
 }<br>
 PUT - http://localhost:3001/turnos/:id<br>
 DELETE - http://localhost:3001/turnos/:id<br>
-<br>
-Historial Medico:<br>
+
+## Historial Medico:
 GET - http://localhost:3001/historiales<br>
 GET - http://localhost:3001/historiales/:id<br>
 POST - http://localhost:3001/historiales/:dni se le pasa el dni del paciente/usuario para asociar el form<br>
@@ -155,8 +155,8 @@ POST - http://localhost:3001/historiales/:dni se le pasa el dni del paciente/usu
 }<br>
 PUT - http://localhost:3001/historiales/:id<br>
 DELETE - http://localhost:3001/historiales/:id<br>
-<br>
-Productos:<br>
+
+## Productos:
 GET - http://localhost:3001/productos<br>
 GET - http://localhost:3001/productos/:id<br>
 POST - http://localhost:3001/productos<br>
@@ -169,24 +169,25 @@ POST - http://localhost:3001/productos<br>
 }<br>
 PUT - http://localhost:3001/productos/:id<br>
 DELETE - http://localhost:3001/productos/:id<br>
-<br>
-Odontogramas:<br>
+
+## Odontogramas:
 GET - http://localhost:3001/odontogramas<br>
 GET - http://localhost:3001/odontogramas/:id<br>
-POST - http://localhost:3001/odontogramas/:id Se pasa el id por params de la consulta asociada al organigrama<br>
-{<br>
-    "datos": {<br>
-        "18": { "extras": { "Cross": "red" } },<br>
-        "26": { "left": "blue", "bottom": "blue", "center": "blue" },<br>
-        "28": { "extras": { "Cross": "red" } },<br>
-        "38": { "extras": { "Cross": "red" } }<br>
-    },<br>
-    "observaciones": "observaciones"<br>
-}<br>
+POST - http://localhost:3001/odontogramas/:id?child=true Se pasa el id por params de la consulta asociada y por query el booleano "child" y en caso que sea un niño se crea el odontograma con la cantidad de dientes correspondiente
+
 PUT - http://localhost:3001/odontogramas/:id<br>
 DELETE - http://localhost:3001/odontogramas/:id<br>
 <br>
-Google Calendar:<br>
+
+## Dientes:
+GET - http://localhost:3001/dientes - Solicitar los datos de un diente
+GET - http://localhost:3001/dientes/:id - Solicitar los datos de un diente
+PUT - http://localhost:3001/dientes/:id?face=1&color=gray - Se pasa por params el id del diente y por query se pasa la cara a editar y el color
+
+## Opciones
+GET - http://localhost:3001/options - Solicitar todas las opciones
+
+## Google Calendar:
 GET - http://localhost:3001/google -> redirect a google/redirect para obtener token y permisos para acceder al Calendar del paciente<br>
 GET - http://localhost:3001/google/redirect -> se aceptan los permisos y envia por consola mensaje de exito<br>
 <br>
