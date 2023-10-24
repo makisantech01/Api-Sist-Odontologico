@@ -173,8 +173,7 @@ DELETE - http://localhost:3001/productos/:id<br>
 ## Odontogramas:
 GET - http://localhost:3001/odontogramas<br>
 GET - http://localhost:3001/odontogramas/:id<br>
-POST - http://localhost:3001/odontogramas/:id?child=true Se pasa el id por params de la consulta asociada y por query el booleano "child" y en caso que sea un niño se crea el odontograma con la cantidad de dientes correspondiente
-
+POST - http://localhost:3001/odontogramas/:id?child=true Se pasa el id por params de la consulta asociada y por query el booleano "child" y en caso que sea un niño se crea el odontograma con la cantidad de dientes correspondiente<br>
 PUT - http://localhost:3001/odontogramas/:id<br>
 DELETE - http://localhost:3001/odontogramas/:id<br>
 <br>
