@@ -176,7 +176,6 @@ GET - http://localhost:3001/odontogramas/:id<br>
 POST - http://localhost:3001/odontogramas/:id?child=true Se pasa el id por params de la consulta asociada y por query el booleano "child" y en caso que sea un niño se crea el odontograma con la cantidad de dientes correspondiente<br>
 PUT - http://localhost:3001/odontogramas/:id<br>
 DELETE - http://localhost:3001/odontogramas/:id<br>
-<br>
 
 ## Dientes:
 GET - http://localhost:3001/dientes - Solicitar los datos de un diente <br>
@@ -197,3 +196,5 @@ POST - http://localhost:3001/turnos/:dni crea una consulta asociada al paciente 
     "hora": "16:00",<br>
     "estado": true,<br>
 }<br>
+Opciones: <br>
+GET - http://localhost:3001/options trae todas las opciones del odontograma
