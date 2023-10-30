@@ -3,31 +3,25 @@ import Odontograma from "../models/odontograma.js"
 import Consulta from "../models/consulta.js"
 import Diente from "../models/diente.js"
 
-export const getAllOdontogramas = async (req, res) => {
+export const getAllOdontogramasController = async (req, res) => {
 	const odontograma = await Odontograma.findAll()
-	response(res, 200, odontograma)
+	return odontograma
 }
 
-export const getOdontograma = async (req, res) => {
-	const { id } = req.params
+export const getOdontogramaController = async (id) => {
 	const odontograma = await Odontograma.findByPk(id, {
 		include: Diente,
 		order: [
 			[Diente, 'number', 'ASC']
 		]
 	})
-
-	!odontograma ? response(res, 404, { message: "Odontograma no encontrado!" }) : response(res, 200, odontograma)
+	return odontograma
 }
 
-export const createOdontograma = async (req, res) => {
-	try {
-		const { id } = req.params
-		const { child } = req.query // verifica el booleano en caso de ser niño
-
+export const createOdontogramaController = async (id, child) => {
 		const currentConsulta = await Consulta.findByPk(id)
-		if (!currentConsulta) throw new Error('no se encontró la consulta especificada')
-		if(Consulta.odontograma) throw new Error('La consulta ya tiene un odontograma asociado')
+		if (!currentConsulta) throw new Error('No se encontró la consulta especificada')
+		if (Consulta.odontograma) throw new Error('La consulta ya tiene un odontograma asociado')
 
 		const newOdontograma = await Odontograma.create()
 		await currentConsulta?.setOdontograma(newOdontograma)
@@ -41,32 +35,17 @@ export const createOdontograma = async (req, res) => {
 		}
 		const createdDientes = await Diente.bulkCreate(dientesData)
 		await newOdontograma.setDientes(createdDientes)
-		response(res, 200, newOdontograma)
-
-	} catch (error) {
-		console.error("Error al crear el odontograma:", error.message)
-		response(res, 500, "Error interno del servidor")
-	}
+		return newOdontograma
 }
 
-export const updateOdontograma = async (req, res) => {
-	const { id } = req.params
+export const updateOdontogramaController = async (id) => {
 	const odontograma = await Odontograma.findByPk(id)
 	const updatedOdontograma = await odontograma?.update(req.body)
 	response(res, 201, updatedOdontograma)
 }
 
-export const deleteOdontograma = async (req, res) => {
-	const { id } = req.params
+export const deleteOdontogramaController = async (ids) => {
 	const odontograma = await Odontograma.findByPk(id)
 	await odontograma.destroy()
-	response(res, 200, `Odontograma: ${id} eliminado!`)
-}
-
-export default {
-	getAllOdontogramas,
-	getOdontograma,
-	createOdontograma,
-	updateOdontograma,
-	deleteOdontograma,
+	return
 }

@@ -3,23 +3,19 @@ import Paciente from "../models/paciente.js";
 import Usuario from "../models/usuario.js";
 import bcrypt from "bcrypt";
 
-export const getAllUsuarios = async (req, res) => {
+export const getAllUsuariosController = async () => {
   const usuarios = await Usuario.findAll();
-  response(res, 200, usuarios);
+  return usuarios
 };
 
-export const getUsuario = async (req, res) => {
-  const { dni } = req.params;
+export const getUsuarioController = async (dni) => {
   const usuario = await Usuario.findByPk(dni, {
     include: [{ model: Paciente }],
   });
-  !usuario
-    ? response(res, 404, { message: "Usuario no encontrado!" })
-    : response(res, 200, usuario);
+  return usuario
 };
 
-export const createUsuario = async (req, res) => {
-  const { dni, password, admin } = req.body;
+export const createUsuarioController = async (dni, password, admin) => {
   // Generar un hash de la contraseña antes de almacenarla
   const hashedPassword = await bcrypt.hash(password, 10);
   const newUsuario = await Usuario.create({
@@ -27,24 +23,20 @@ export const createUsuario = async (req, res) => {
     password: hashedPassword,
     admin,
   });
-  response(res, 200, newUsuario);
+  return newUsuario
 };
 
-export const updateUsuario = async (req, res) => {
-  const { id } = req.params;
-  const { dni, password } = req.body;
+export const updateUsuarioController = async (id, dni, password) => {
   const usuario = await Usuario.findByPk(id);
   const hashedPassword = await bcrypt.hash(password, 10);
   const updatedUsuario = await usuario?.update({
     dni,
     password: hashedPassword,
   });
-  response(res, 201, updatedUsuario);
+  return updatedUsuario
 };
 
-export const deleteUsuario = async (req, res) => {
-  const { dni } = req.params;
+export const deleteUsuarioController = async (dni) => {
   const usuario = await Usuario.findByPk(dni);
   await usuario.destroy();
-  response(res, 200, `Usuario DNI: ${dni} eliminado!`);
 };

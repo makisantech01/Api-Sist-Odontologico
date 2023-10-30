@@ -37,7 +37,7 @@ export const updateDiente = async (req, res) => {
 		const diente = await Diente.findByPk(id)
 		diente.set({ [`face${faceNumber}`]: color })
 		await diente.save()
-		return response(res, 200, 'Datos del diente actualizados con éxito')
+		return response(res, 200, `Datos del diente actualizados con éxito: face${faceNumber} color:${color}`)
 
 	} catch (error) {
 		console.log("Error al editar el diente:", error.message)

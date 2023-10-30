@@ -3,29 +3,25 @@ import Consulta from "../models/consulta.js"
 import Paciente from "../models/paciente.js"
 import Odontograma from "../models/odontograma.js"
 import Producto from "../models/producto.js"
-import Usuario from "../models/usuario.js"
 
-export const getAllConsultas = async (req, res) => {
+export const getAllConsultasController = async (req, res) => {
 	const consultas = await Consulta.findAll({
-  include: [{ model: Odontograma, attributes: ['id'] }],
-});
-	response(res, 200, consultas)
+		include: [{ model: Odontograma, attributes: ['id'] }],
+	});
+	return consultas
 }
 
-export const getConsulta = async (req, res) => {
-	const { id } = req.params
+export const getConsultaController = async (id) => {
 	const consulta = await Consulta.findByPk(id, {
 		include: [{ model: Paciente }, { model: Odontograma }, { model: Producto }],
 	})
-
-	response(res, 200, consulta)
+	return consulta
 }
 
-export const createConsulta = async (req, res) => {
-	const { dni } = req.params
+export const createConsultaController = async (dni, consultaData) => {
 	// const { productos, ...consultaData } = req.body;
-	const { ...consultaData } = req.body
 	const currentPaciente = await Paciente.findByPk(dni)
+	if (!currentPaciente) return null
 	const newConsulta = await Consulta.create(consultaData)
 	await currentPaciente?.addConsulta(newConsulta)
 	// for (const producto of productos) {
@@ -40,18 +36,16 @@ export const createConsulta = async (req, res) => {
 	//     await productoExistente.save();
 	//   }
 	// }
-	response(res, 200, newConsulta)
+	return newConsulta
 }
 
-export const updateConsulta = async (req, res) => {
-	const { id } = req.params
+export const updateConsultaController = async (id) => {
 	const consulta = await Consulta.findByPk(id)
 	const updatedConsulta = await consulta?.update(req.body)
-	response(res, 201, updatedConsulta)
+	return updatedConsulta
 }
 
-export const deleteConsulta = async (req, res) => {
-	const { id } = req.params
+export const deleteConsultaController = async (id) => {
 	const consulta = await Consulta.findByPk(id)
 	await consulta.destroy()
 	response(res, 200, `Consulta ID: ${id} eliminada!`)

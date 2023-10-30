@@ -6,7 +6,7 @@ import {
   createOdontograma,
   updateOdontograma,
   deleteOdontograma,
-} from "../controllers/odontograma.js";
+} from "../handlers/odontograma.handler.js";
 
 const router = Router();
 

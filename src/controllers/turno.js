@@ -5,9 +5,7 @@ import {
   enviarCorreo,
   agregarEventoCalendario,
 } from "../middlewares/calendar.js";
-
 import { generarDiasConHorasDisponibles } from "../middlewares/diasHoras.js";
-
 import moment from "moment";
 import { cloudresourcemanager } from "googleapis/build/src/apis/cloudresourcemanager/index.js";
 
