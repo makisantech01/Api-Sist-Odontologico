@@ -28,7 +28,7 @@ Odontograma.hasMany(Diente, { foreignKey: "odontogramaId" })
 Diente.belongsTo(Odontograma, { foreignKey: "odontogramaId" })
 
 //OBSERVACIONES
-Odontograma.hasMany(Observacion, { foreignKey: "odontogramaId" })
-Observacion.belongsTo(Odontograma, { foreignKey: "odontogramaId" })
+Odontograma.hasMany(Observacion, { foreignKey: "odontogramaId", as: 'observaciones' })
+Observacion.belongsTo(Odontograma, { foreignKey: "odontogramaId", as: 'observaciones' })
 
 export default Odontograma

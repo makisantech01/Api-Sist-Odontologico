@@ -17,9 +17,6 @@ const generarHorasDisponibles = () => {
     hora.add(intervaloMinutos, "minutes");
   }
 
-  const instancia = moment()
-  console.log(instancia)
-  // console.log(horasDisponibles)
   return horasDisponibles;
 };
 

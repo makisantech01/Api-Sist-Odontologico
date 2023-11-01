@@ -19,14 +19,12 @@ const Consulta = sequelize.define(
 			get() {
 			  const rawValue = this.getDataValue("fecha");
         const date = new Date(rawValue)
-        console.log('date:', date)
 			  if (rawValue) {
           const formattedDate = date.toLocaleDateString("es-ES", {
             day: "2-digit",
 			      month: "2-digit",
 			      year: "numeric",
 			    });
-          console.log('formatted date:', formattedDate)
           // BUG - formattedDate tiene como valor un dia menos que rawValue
 			    return formattedDate;
 			  }

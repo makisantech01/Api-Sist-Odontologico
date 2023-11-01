@@ -2,8 +2,6 @@
 import Option from "../../models/option.js"
 
 const bulkCreateOptions = async () => {
-	console.log("bulkcreateoptions")
-
 	try {
 		const options = await Option.findAll()
 		if (!options.length) {

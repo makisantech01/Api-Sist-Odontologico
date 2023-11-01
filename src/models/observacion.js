@@ -15,7 +15,7 @@ const Observacion = sequelize.define(
 			allowNull: false,
 		},
 		content: {
-			type: DataTypes.TEXT('medium'),
+			type: DataTypes.TEXT,
 			allowNull: false
 		}
 	},

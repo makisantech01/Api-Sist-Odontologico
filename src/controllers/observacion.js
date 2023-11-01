@@ -2,6 +2,11 @@ import Observacion from "../models/observacion.js"
 import Odontograma from "../models/odontograma.js"
 
 export const getAllObservacionesController = async (odontogramaId) => {
+	const observaciones = await Observacion.findAll()
+	return observaciones
+}
+
+export const getObservacionesController = async (odontogramaId) => {
 	const observaciones = await Observacion.findAll({
 		where: {
 			odontogramaId: odontogramaId
@@ -19,7 +24,7 @@ export const createObservacionController = async (id, data) => {
 	let newObservacion;
 	try {
 		newObservacion = await Observacion.create(data);
-		await odontograma.addObservacion(newObservacion);
+		await odontograma.addObservaciones(newObservacion);
 	} catch (error) {
 		if (newObservacion) {
 			await newObservacion.destroy();
@@ -40,8 +45,6 @@ export const updateObservacionController = async (id, data) => {
 }
 
 export const deleteObservacionController = async (id) => {
-	console.log('deleteObservacion')
-
 	const toDeleteObservation = await Observacion.findByPk(id)
 	if (!toDeleteObservation) throw new Error('No se encontro una observacion asociada al id')
 	await toDeleteObservation.destroy()

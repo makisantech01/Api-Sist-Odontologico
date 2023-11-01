@@ -2,6 +2,7 @@ import response from "../utils/response.js"
 import Odontograma from "../models/odontograma.js"
 import Consulta from "../models/consulta.js"
 import Diente from "../models/diente.js"
+import Observacion from "../models/observacion.js"
 
 export const getAllOdontogramasController = async (req, res) => {
 	const odontograma = await Odontograma.findAll()
@@ -10,32 +11,35 @@ export const getAllOdontogramasController = async (req, res) => {
 
 export const getOdontogramaController = async (id) => {
 	const odontograma = await Odontograma.findByPk(id, {
-		include: Diente,
-		order: [
-			[Diente, 'number', 'ASC']
+		include: [
+			{
+				model: Diente,
+				order: [['number', 'ASC']]
+			},
+			{ model: Observacion, as: 'observaciones' }
 		]
 	})
 	return odontograma
 }
 
 export const createOdontogramaController = async (id, child) => {
-		const currentConsulta = await Consulta.findByPk(id)
-		if (!currentConsulta) throw new Error('No se encontró la consulta especificada')
-		if (Consulta.odontograma) throw new Error('La consulta ya tiene un odontograma asociado')
+	const currentConsulta = await Consulta.findByPk(id)
+	if (!currentConsulta) throw new Error('No se encontró la consulta especificada')
+	if (Consulta.odontograma) throw new Error('La consulta ya tiene un odontograma asociado')
 
-		const newOdontograma = await Odontograma.create()
-		await currentConsulta?.setOdontograma(newOdontograma)
+	const newOdontograma = await Odontograma.create()
+	await currentConsulta?.setOdontograma(newOdontograma)
 
-		const cantidadDientes = child ? 20 : 36
-		const dientesData = []
-		for (let i = 1; i <= cantidadDientes; i++) {
-			dientesData.push({
-				number: i,
-			})
-		}
-		const createdDientes = await Diente.bulkCreate(dientesData)
-		await newOdontograma.setDientes(createdDientes)
-		return newOdontograma
+	const cantidadDientes = child ? 20 : 36
+	const dientesData = []
+	for (let i = 1; i <= cantidadDientes; i++) {
+		dientesData.push({
+			number: i,
+		})
+	}
+	const createdDientes = await Diente.bulkCreate(dientesData)
+	await newOdontograma.setDientes(createdDientes)
+	return newOdontograma
 }
 
 export const updateOdontogramaController = async (id) => {
