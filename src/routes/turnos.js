@@ -7,7 +7,7 @@ import {
   updateTurno,
   deleteTurno,
   disponibilidad,
-} from "../controllers/turno.js";
+} from "../handlers/turno.handler.js";
 
 const router = Router();
 

@@ -5,6 +5,7 @@ import turnos from "./turnos.js";
 import historiales from "./historiales.js";
 import productos from "./productos.js";
 import odontogramas from "./odontogramas.js";
+import observaciones from "./observaciones.js"
 import usuarios from "./usuarios.js";
 import login from "./login.js";
 import calendar from "./calendar.js";
@@ -19,6 +20,7 @@ router.use("/turnos", turnos);
 router.use("/historiales", historiales);
 router.use("/productos", productos);
 router.use("/odontogramas", odontogramas);
+router.use("/observaciones", observaciones);
 router.use("/dientes", dientes);
 router.use("/options", options);
 router.use("/usuarios", usuarios);

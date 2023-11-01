@@ -1,6 +1,7 @@
 import { DataTypes } from "sequelize"
 import sequelize from "../config/config.cjs"
 import Diente from "./diente.js"
+import Observacion from "./observacion.js"
 
 const Odontograma = sequelize.define(
 	"odontograma",
@@ -25,5 +26,9 @@ const Odontograma = sequelize.define(
 //DIENTES
 Odontograma.hasMany(Diente, { foreignKey: "odontogramaId" })
 Diente.belongsTo(Odontograma, { foreignKey: "odontogramaId" })
+
+//OBSERVACIONES
+Odontograma.hasMany(Observacion, { foreignKey: "odontogramaId" })
+Observacion.belongsTo(Odontograma, { foreignKey: "odontogramaId" })
 
 export default Odontograma

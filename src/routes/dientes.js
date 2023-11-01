@@ -6,7 +6,7 @@ import {
   createDiente,
   updateDiente,
   deleteDiente,
-} from "../controllers/diente.js";
+} from "../handlers/diente.handler.js";
 
 const router = Router();
 

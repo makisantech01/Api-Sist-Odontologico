@@ -1,63 +1,39 @@
 import response from "../utils/response.js"
-import Odontograma from "../models/odontograma.js"
-import Consulta from "../models/consulta.js"
-import Diente from "../models/diente.js"
 import { createOdontogramaController, getAllOdontogramasController, getOdontogramaController, updateOdontogramaController } from "../controllers/odontograma.js"
 
 export const getAllOdontogramas = async (req, res) => {
-	try {
-		const odontogramas = await getAllOdontogramasController()
-		response(res, 200, odontogramas)
-	} catch (error) {
-		console.log(error.message)
-		response(res, 400, 'Error interno al solicitar odontogramas')
-	}
+	const odontogramas = await getAllOdontogramasController()
+	response(res, 200, odontogramas)
 }
 
 export const getOdontograma = async (req, res) => {
 	const { id } = req.params
-	try {
-		const odontograma = await getOdontogramaController(id)
-		!odontograma ? response(res, 404, { message: "Odontograma no encontrado!" }) : response(res, 200, odontograma)
-	} catch (error) {
-		console.log(error.message)
-		response(res, 400, 'Error interno al solicitar el odontograma')
-	}
+	const odontograma = await getOdontogramaController(id)
+	if (!odontograma) throw new Error("Odontograma no encontrado!")
+	response(res, 200, odontograma)
 }
 
 export const createOdontograma = async (req, res) => {
-	try {
-		const { id } = req.params
-		const { child } = req.query // verifica el booleano en caso de ser niño
-		const newOdontograma = await createOdontogramaController(id, child)
-		response(res, 200, newOdontograma)
-
-	} catch (error) {
-		console.error(error.message)
-		response(res, 400, "Error interno al crear el odontograma")
-	}
+	const { id } = req.params
+	const { child } = req.query // verifica el booleano en caso de ser niño
+	if (!child || !id) throw new Error('Faltan datos necesarios (dni - child)')
+	const newOdontograma = await createOdontogramaController(id, child)
+	response(res, 200, newOdontograma)
 }
 
 export const updateOdontograma = async (req, res) => {
 	const { id } = req.params
-	try {
-		const updatedOdontograma = await updateOdontogramaController(id)
-		response(res, 201, updatedOdontograma)
-	} catch (error) {
-		console.log(error.message)
-		response(res,400,'Error interno al actualizar odontograma')	
-	}
+	if (!id) throw new Error('Faltan datos necesarios (dni)')
+	const updatedOdontograma = await updateOdontogramaController(id)
+	response(res, 201, updatedOdontograma)
 }
 
 export const deleteOdontograma = async (req, res) => {
 	const { id } = req.params
-	try {
-		await updateOdontogramaController(id)
-		response(res, 201, `Odontograma con id: ${id} eliminado con exito`)
-	} catch (error) {
-		console.log(error.message)
-		response(res,400,'Error interno al eliminar odontograma')	
-	}
+	if (!id) throw new Error('Faltan datos necesarios (dni)')
+	await updateOdontogramaController(id)
+	response(res, 201, `Odontograma con id: ${id} eliminado con exito`)
+
 }
 
 export default {
