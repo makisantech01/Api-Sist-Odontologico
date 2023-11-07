@@ -6,7 +6,7 @@ import {
   createConsulta,
   updateConsulta,
   deleteConsulta,
-} from "../controllers/consulta.js";
+} from "../handlers/consulta.handler.js";
 
 const router = Router();
 

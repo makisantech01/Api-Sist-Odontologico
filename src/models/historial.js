@@ -179,6 +179,7 @@ const Historial = sequelize.define(
     },
   },
   {
+    tableName: 'historiales',
     timestamps: false,
   }
 );

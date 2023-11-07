@@ -5,13 +5,11 @@ import {
   enviarCorreo,
   agregarEventoCalendario,
 } from "../middlewares/calendar.js";
-
 import { generarDiasConHorasDisponibles } from "../middlewares/diasHoras.js";
-
 import moment from "moment";
+import { cloudresourcemanager } from "googleapis/build/src/apis/cloudresourcemanager/index.js";
 
-export const getAllTurnos = async (req, res) => {
-  const { fecha } = req.query;
+export const getAllTurnosController = async (fecha) => {
   if (fecha) {
     const [dia, mes, año] = fecha.split("/");
     const fechaBusqueda = new Date(año, mes - 1, dia);
@@ -27,12 +25,12 @@ export const getAllTurnos = async (req, res) => {
         .getUTCDate()
         .toString()
         .padStart(2, "0")}/${(fechaOriginal.getUTCMonth() + 1)
-        .toString()
-        .padStart(2, "0")}/${fechaOriginal.getUTCFullYear()}`;
+          .toString()
+          .padStart(2, "0")}/${fechaOriginal.getUTCFullYear()}`;
       return { ...turno.toJSON(), fecha: fechaFormateada };
     });
+    return turnosFormateados
 
-    response(res, 200, turnosFormateados);
   } else {
     const turno = await Turno.findAll({
       include: [{ model: Paciente }],
@@ -42,30 +40,23 @@ export const getAllTurnos = async (req, res) => {
       const fechaFormateada = fechaOriginal.format("DD/MM/YYYY");
       return { ...t.toJSON(), fecha: fechaFormateada };
     });
-    response(res, 200, turnoFormateados);
+    return turnoFormateados
   }
 };
 
-export const getTurno = async (req, res) => {
-  const { id } = req.params;
+export const getTurnoController = async (id) => {
   const turno = await Turno.findByPk(id, {
     include: [{ model: Paciente }],
   });
-  response(res, 200, turno);
+  return turno
 };
 
-export const createTurno = async (req, res) => {
-  const { dni } = req.params;
+export const createTurnoController = async (dni, fechaTurno, horaTurno) => {
   const currentPaciente = await Paciente.findByPk(dni);
-  if (!dni) {
-    response(res, 400, { message: "Falta DNI asociado al turno" });
-  }
   if (!currentPaciente) {
-    response(res, 404, { message: "No se encontro un paciente con ese DNI" });
+    throw new Error(`No se encontró un paciente con dni ${dni}`)
   }
   // Obtén el día y hora del turno que deseas crear
-  const fechaTurno = req.body.fecha;
-  const horaTurno = req.body.hora;
   const [dia, mes, anio] = fechaTurno.split("/");
   const fecha = new Date(anio, mes - 1, dia);
   const fechaISO = fecha.toISOString().split("T")[0]; // Convertir la fecha a formato ISO
@@ -79,9 +70,7 @@ export const createTurno = async (req, res) => {
   });
 
   if (turnosExistente) {
-    return res
-      .status(409)
-      .json({ error: "Ya existe un turno en la misma hora" });
+    throw new Error("Ya existe un turno en la misma hora")
   }
 
   const newTurno = await Turno.create({
@@ -100,16 +89,12 @@ export const createTurno = async (req, res) => {
   const descripcion = "Turno en el centro odontológico";
   agregarEventoCalendario(email, fechaISO, horaTurno, asunto, descripcion);
 
-  response(res, 200, newTurno);
+  return newTurno
 };
 
-export const updateTurno = async (req, res) => {
-  const { id } = req.params;
+export const updateTurnoController = async (id, fechaTurno, horaTurno) => {
   const turno = await Turno.findByPk(id);
-
-  // Obtén el día y hora del turno que deseas crear
-  const fechaTurno = req.body.fecha;
-  const horaTurno = req.body.hora;
+  if (!turno) throw new Error('No se encontro un turno asociado')
   const [dia, mes, anio] = fechaTurno.split("/");
   const fecha = new Date(anio, mes - 1, dia);
   const fechaISO = fecha.toISOString().split("T")[0]; // Convertir la fecha a formato ISO
@@ -123,25 +108,22 @@ export const updateTurno = async (req, res) => {
   });
 
   if (turnosExistente) {
-    return res
-      .status(400)
-      .json({ error: "Ya existe un turno en la misma hora" });
+    throw new Error("Ya existe un turno en el mismo horario")
   }
   const updatedTurno = await turno?.update({
     fecha: fechaISO,
     hora: horaTurno,
   });
-  response(res, 201, updatedTurno);
+  return updatedTurno
 };
 
-export const deleteTurno = async (req, res) => {
-  const { id } = req.params;
+export const deleteTurnoController = async (id) => {
   const turno = await Turno.findByPk(id);
   await turno.destroy();
-  response(res, 200, `Turno Id: ${id} eliminado!`);
+  return `Turno Id: ${id} eliminado!`
 };
 
-export const disponibilidad = async (req, res) => {
+export const disponibilidad = async () => {
   const diasConHorasDisponibles = await generarDiasConHorasDisponibles();
-  response(res, 200, diasConHorasDisponibles);
+  return diasConHorasDisponibles
 };

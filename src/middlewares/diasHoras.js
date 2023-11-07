@@ -1,18 +1,16 @@
 import moment from "moment";
 import "moment/locale/es.js";
 import Turno from "../models/turno.js";
+
 const rangoHoras = { inicio: 15, fin: 20 };
 const intervaloMinutos = 30;
-
 moment.locale("es");
 
 const generarHorasDisponibles = () => {
   const horasDisponibles = [];
   const { inicio, fin } = rangoHoras;
   const topeHorario = moment({ hour: fin, minute: 0 });
-
   let hora = moment({ hour: inicio, minute: 0 });
-
   // Generar las horas disponibles hasta el tope horario
   while (hora.isBefore(topeHorario)) {
     horasDisponibles.push({ hora: hora.format("HH:mm"), disponible: true });
@@ -39,7 +37,6 @@ export const generarDiasConHorasDisponibles = async () => {
 
     turnos?.forEach((turno) => {
       const horaTurno = moment(turno.hora, "HH:mm");
-
       const horaEncontrada = horasDisponibles.find(
         (hora) => hora.hora === horaTurno.format("HH:mm")
       );
@@ -54,5 +51,9 @@ export const generarDiasConHorasDisponibles = async () => {
     }
   }
 
+  console.log(dias)
   return dias;
 };
+
+generarHorasDisponibles()
+// generarDiasConHorasDisponibles()
