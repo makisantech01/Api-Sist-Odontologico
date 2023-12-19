@@ -28,12 +28,10 @@ const Usuario = sequelize.define(
 
 Usuario.hasOne(Paciente, {
   foreignKey: "usuarioId",
-  sourceKey: "dni",
 });
 
 Paciente.belongsTo(Usuario, {
   foreignKey: "usuarioId",
-  targetId: "dni",
 });
 
 export default Usuario;

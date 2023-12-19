@@ -7,11 +7,12 @@ import {
   updateDiente,
   deleteDiente,
 } from "../handlers/diente.handler.js";
+import authenticateAndAuthorize from "../middlewares/authenticateAndAuthorize.js";
 
 const router = Router();
 
-router.get("/", catchedAsync(getAllDientes));
-router.get("/:id", catchedAsync(getDienteById));
+router.get("/", authenticateAndAuthorize({ requireAdmin: true }), catchedAsync(getAllDientes));
+router.get("/:id", authenticateAndAuthorize({ requireAdmin: false }), catchedAsync(getDienteById));
 router.post("/:id", catchedAsync(createDiente));
 router.put("/:id", catchedAsync(updateDiente));
 router.delete("/:id", catchedAsync(deleteDiente));

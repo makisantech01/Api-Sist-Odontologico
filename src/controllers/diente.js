@@ -1,5 +1,9 @@
+import Consulta from "../models/consulta.js"
 import Diente from "../models/diente.js"
 import Odontograma from "../models/odontograma.js"
+import Paciente from "../models/paciente.js"
+import Usuario from "../models/usuario.js"
+import getUserIdValueFromObject from "../utils/getUserIdValueFromObject.js"
 
 export const getAllDientesController = async () => {
 	const dientes = await Diente.findAll()
@@ -7,10 +11,20 @@ export const getAllDientesController = async () => {
 }
 
 export const getDienteByIdController = async (id) => {
-	const diente = await Diente.findByPk(id, {
-		include: [{ model: Odontograma }],
+	const nestedDiente = await Diente.findByPk(id, {
+		include: { all: true, nested: true }
 	})
-	return diente
+	const userIdResource = getUserIdValueFromObject(nestedDiente)
+
+	const diente = await Diente.findByPk(id, {
+		include:
+		{
+			model: Odontograma,
+			as: 'odontograma'
+		}
+	})
+
+	return { diente, userIdResource }
 }
 
 export const createDienteController = async (odontogramaId) => {

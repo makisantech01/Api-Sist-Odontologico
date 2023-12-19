@@ -3,6 +3,8 @@ import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import nodemailer from "nodemailer";
 
+const { JWT_SECRET } = process.env
+
 export const login = async (req, res) => {
   const { dni, password } = req.body;
   try {
@@ -17,7 +19,7 @@ export const login = async (req, res) => {
         // Generar un token de sesión
         const token = jwt.sign(
           { id: usuario.dni, admin: usuario.admin },
-          "secreto",
+          JWT_SECRET,
           {
             expiresIn: "1h",
           }
@@ -87,7 +89,7 @@ export const logout = (req, res) => {
 
 // Paso 1: Generar un token de restablecimiento de contraseña
 export function generarTokenRestablecimiento(usuarioId) {
-  const token = jwt.sign({ usuarioId }, "secreto", {
+  const token = jwt.sign({ usuarioId }, JWT_SECRET, {
     expiresIn: "1h", // El token expirará en 1 hora
   });
   return token;
@@ -118,7 +120,7 @@ export async function enviarCorreoRestablecimiento(email, token) {
 export async function restablecerContraseña(token, password, res) {
   try {
     // Validar el token
-    const decoded = jwt.verify(token, "secreto");
+    const decoded = jwt.verify(token, JWT_SECRET);
     const usuarioId = decoded.usuarioId;
 
     // Actualizar la contraseña

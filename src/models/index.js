@@ -8,6 +8,8 @@ import Producto from "./producto.js";
 import Turno from "./turno.js";
 import Usuario from "./usuario.js";
 
+
+
 export default {
   paciente: Paciente,
   consulta: Consulta,

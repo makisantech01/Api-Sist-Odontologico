@@ -92,23 +92,24 @@ const Paciente = sequelize.define(
 )
 
 Paciente.hasMany(Consulta, {
-  foreignKey: "pacienteId",
-  sourceKey: "dni",
+	foreignKey: "pacienteId",
+	as: 'consultas'
 });
 
 Consulta.belongsTo(Paciente, {
-  foreignKey: "pacienteId",
-  targetId: "dni",
+	foreignKey: "pacienteId",
+	as: 'paciente'
 });
 
 Paciente.hasOne(Historial, {
-  foreignKey: "pacienteId",
-  sourceKey: "dni",
+	foreignKey: "pacienteId",
+	sourceKey: "dni",
+	as: 'historial'
 });
 
 Historial.belongsTo(Paciente, {
-  foreignKey: "pacienteId",
-  targetId: "dni",
+	foreignKey: "pacienteId",
+	targetId: "dni",
 });
 
 export default Paciente

@@ -14,6 +14,7 @@ export const getOdontogramaController = async (id) => {
 		include: [
 			{
 				model: Diente,
+				as: 'dientes',
 				order: [['number', 'ASC']]
 			},
 			{ model: Observacion, as: 'observaciones' }

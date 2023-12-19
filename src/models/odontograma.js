@@ -24,11 +24,11 @@ const Odontograma = sequelize.define(
 )
 
 //DIENTES
-Odontograma.hasMany(Diente, { foreignKey: "odontogramaId" })
-Diente.belongsTo(Odontograma, { foreignKey: "odontogramaId" })
+Odontograma.hasMany(Diente, { foreignKey: "odontogramaId", as: 'dientes' })
+Diente.belongsTo(Odontograma, { foreignKey: "odontogramaId", as: 'odontograma' })
 
 //OBSERVACIONES
 Odontograma.hasMany(Observacion, { foreignKey: "odontogramaId", as: 'observaciones' })
-Observacion.belongsTo(Odontograma, { foreignKey: "odontogramaId", as: 'observaciones' })
+Observacion.belongsTo(Odontograma, { foreignKey: "odontogramaId", as: 'odontograma' })
 
 export default Odontograma

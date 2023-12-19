@@ -17,18 +17,18 @@ const Consulta = sequelize.define(
 			allowNull: false,
 			defaultValue: DataTypes.NOW,
 			get() {
-			  const rawValue = this.getDataValue("fecha");
-        const date = new Date(rawValue)
-			  if (rawValue) {
-          const formattedDate = date.toLocaleDateString("es-ES", {
-            day: "2-digit",
-			      month: "2-digit",
-			      year: "numeric",
-			    });
-          // BUG - formattedDate tiene como valor un dia menos que rawValue
-			    return formattedDate;
-			  }
-			  return null;
+				const rawValue = this.getDataValue("fecha");
+				const date = new Date(rawValue)
+				if (rawValue) {
+					const formattedDate = date.toLocaleDateString("es-ES", {
+						day: "2-digit",
+						month: "2-digit",
+						year: "numeric",
+					});
+					// BUG - formattedDate tiene como valor un dia menos que rawValue
+					return formattedDate;
+				}
+				return null;
 			},
 		},
 		// 	get() {
@@ -69,6 +69,7 @@ const Consulta = sequelize.define(
 	},
 	{
 		timestamps: false,
+		tableName: 'consultas'
 	}
 )
 
@@ -78,10 +79,12 @@ Consulta.beforeCreate((instance, options) => {
 
 Consulta.hasOne(Odontograma, {
 	foreignKey: "consultaId",
+	as: 'odontograma'
 })
 
 Odontograma.belongsTo(Consulta, {
 	foreignKey: "consultaId",
+	as: 'consulta'
 })
 
 // Consulta.hasOne(Odontograma, {
@@ -97,6 +100,7 @@ Odontograma.belongsTo(Consulta, {
 Consulta.hasMany(Producto, {
 	foreignKey: "consultaId",
 	sourceKey: "id",
+	as: 'productos'
 })
 
 Producto.belongsTo(Consulta, {
